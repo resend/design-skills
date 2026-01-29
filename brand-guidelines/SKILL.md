@@ -1,6 +1,6 @@
 ---
 name: resend-brand
-description: Applies Resend's official brand colors, typography, and visual identity to artifacts. Use when creating documents, social media graphics, presentations, or any visual content that should follow Resend's brand guidelines. Triggers for requests mentioning Resend brand, Resend style, or when working on Resend marketing materials.
+description: Use when creating Resend marketing materials, documents, presentations, or visual content. Triggers for Resend brand, Resend style, or Resend visual identity requests.
 metadata:
     author: resend
     version: "1.0.0"
