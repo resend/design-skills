@@ -1,6 +1,6 @@
 ---
 name: resend-design-skills
-description: A collection of design-related skills for Claude Code. Routes to specific sub-skills for brand guidelines and visual identity.
+description: Use when needing Resend design resources. Routes to brand guidelines, visual identity, and other design sub-skills.
 metadata:
     author: resend
     version: "1.0.0"
