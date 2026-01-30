@@ -2,37 +2,37 @@
 name: resend-brand
 description: Use when creating Resend marketing materials, documents, presentations, or visual content. Triggers for Resend brand, Resend style, or Resend visual identity requests.
 metadata:
-    author: resend
-    version: "1.0.0"
+  author: resend
+  version: "1.0.0"
 ---
 
 # Resend Brand Guidelines
 
 ## Core Colors
 
-| Name | Hex |
-|------|-----|
+| Name         | Hex       |
+| ------------ | --------- |
 | Resend Black | `#000000` |
 | Resend White | `#FDFDFD` |
 
 ### Semantic Colors
 
-| Scale | Solid (9) | Light (12) |
-|-------|-----------|------------|
-| Gray | `#A1A4A5` | `#F0F0F0` |
-| Red | `#FE4E54E4` | `#FFD1D9` |
-| Amber | `#FFC53D` | `#FFE7B3` |
-| Green | `#44FFA49E` | `#BBFFD7F0` |
-| Blue | `#0090FF` | `#C2E6FF` |
+| Scale | Background  | Foreground  | Usage                                       |
+| ----- | ----------- | ----------- | ------------------------------------------- |
+| Gray  | `#16171AEB` | `#FDFEFFA6` | Structure, hierarchy, and subtle separation |
+| Red   | `#FF173F2D` | `#FF9592`   | Critical states and irreversible actions    |
+| Amber | `#FA820022` | `#FFCA16`   | Caution and pending states                  |
+| Green | `#22FF991E` | `#46FEA5D4` | Success and completion                      |
+| Blue  | `#0077FF3A` | `#70B8FF`   | Interactive and informational elements      |
 
 ## Typography
 
-| Font | Role |
-|------|------|
+| Font                       | Role                                    |
+| -------------------------- | --------------------------------------- |
 | **Domaine Display Narrow** | Display headlines (never in product UI) |
-| **Favorit** | Headings & titles |
-| **Inter** | Body text |
-| **CommitMono** | Code |
+| **Favorit**                | Headings & titles                       |
+| **Inter**                  | Body text                               |
+| **CommitMono**             | Code                                    |
 
 ### Typography Rules
 
@@ -62,12 +62,14 @@ metadata:
 ## Logo
 
 **Wordmark**
+
 - `https://cdn.resend.com/brand/resend-wordmark-white.svg`
 - `https://cdn.resend.com/brand/resend-wordmark-white.png`
 - `https://cdn.resend.com/brand/resend-wordmark-black.svg`
 - `https://cdn.resend.com/brand/resend-wordmark-black.png`
 
 **Lettermark**
+
 - `https://cdn.resend.com/brand/resend-icon-white.svg`
 - `https://cdn.resend.com/brand/resend-icon-white.png`
 - `https://cdn.resend.com/brand/resend-icon-black.svg`
@@ -92,17 +94,17 @@ Secondary brand symbol. Never use as: primary logo, navigation element, or with 
 
 ## Gradients
 
-| Name | Value |
-|------|-------|
-| Font gradient | `linear-gradient(97deg, #ffffff 30%, rgba(255,255,255,0.50) 100%)` |
-| Smooth gradient | `linear-gradient(96deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.10) 100%)` |
-| Border | `linear-gradient(180deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.05) 100%)` |
-| Rainbow border | `linear-gradient(90deg, rgba(2,252,239,0.44) 0%, rgba(255,181,43,0.44) 50%, rgba(160,43,254,0.44) 100%)` |
+| Name            | Value                                                                                                    |
+| --------------- | -------------------------------------------------------------------------------------------------------- |
+| Font gradient   | `linear-gradient(97deg, #ffffff 30%, rgba(255,255,255,0.50) 100%)`                                       |
+| Smooth gradient | `linear-gradient(96deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.10) 100%)`                         |
+| Border          | `linear-gradient(180deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.05) 100%)`                        |
+| Rainbow border  | `linear-gradient(90deg, rgba(2,252,239,0.44) 0%, rgba(255,181,43,0.44) 50%, rgba(160,43,254,0.44) 100%)` |
 
 ## Effects
 
-| Name | Value |
-|------|-------|
+| Name       | Value                         |
+| ---------- | ----------------------------- |
 | Glass blur | `backdrop-filter: blur(25px)` |
 
 ## Textures
@@ -116,16 +118,17 @@ Brand wallpapers available at: https://resend.com/wallpapers
 
 ## Layout Patterns
 
-| Name | Description |
-|------|-------------|
-| Right Object Scene | Small label top-left, title top-left (2 lines), 3D object right |
-| Interface Scene | Label top-left, title bottom-left (2 lines), UI screenshot background |
-| Text Only Scene | Title top-left, 3D abstract scene fills background |
-| Text Only Background | Large title centered, subtle texture/gradient background |
-| Text Only Subtle | Small centered text (2 lines), minimal dark background |
-| Big Number | Large display number centered (Domaine), small label below |
+| Name                 | Description                                                           |
+| -------------------- | --------------------------------------------------------------------- |
+| Right Object Scene   | Small label top-left, title top-left (2 lines), 3D object right       |
+| Interface Scene      | Label top-left, title bottom-left (2 lines), UI screenshot background |
+| Text Only Scene      | Title top-left, 3D abstract scene fills background                    |
+| Text Only Background | Large title centered, subtle texture/gradient background              |
+| Text Only Subtle     | Small centered text (2 lines), minimal dark background                |
+| Big Number           | Large display number centered (Domaine), small label below            |
 
 **Common patterns:**
+
 - Label/category always small, top-left or top-center
 - Titles use 2-line breaks for rhythm
 - Titles are never longer than 3 lines.
