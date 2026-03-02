@@ -184,6 +184,265 @@ Create a Resend-branded announcement card for social media. It should announce "
 
 ---
 
+---
+
+## resend-design-system (Component Skill)
+
+### Test 12: TextField Composition
+
+**Prompt:**
+```
+Build a search input with an icon on the left and a clear button on the right using Resend's TextField.
+```
+
+**Expected with skill:**
+- Uses compound pattern: `TextField.Root > TextField.Slot + TextField.Input + TextField.Slot`
+- Correct import from `@/ui/text-field/text-field`
+- Slots positioned correctly (before and after Input)
+
+**Expected without skill:** May use a plain `<input>` or incorrect composition pattern.
+
+---
+
+### Test 13: Dialog Construction
+
+**Prompt:**
+```
+Create a confirmation dialog with a destructive delete action using Resend components.
+```
+
+**Expected with skill:**
+- Uses `Dialog.Root`, `Dialog.Trigger`, `Dialog.Content`, `Dialog.Title`
+- Import as `import * as Dialog from '@/ui/dialog'`
+- Delete button uses `appearance="red"` or `appearance="fade-red"`
+- Content `size="1"` for standard modal
+
+**Expected without skill:** May use generic HTML modal or incorrect component API.
+
+---
+
+### Test 14: Select Component
+
+**Prompt:**
+```
+Build a dropdown select with two groups of options using Resend's Select primitive.
+```
+
+**Expected with skill:**
+- Uses namespace import: `import * as Select from '@/ui/select'`
+- Uses `Select.Root > Select.Trigger + Select.Content > Select.Label + Select.Item + Select.Separator`
+- Trigger has correct `size` and `appearance` props
+
+**Expected without skill:** May use HTML `<select>` or wrong Radix patterns.
+
+---
+
+### Test 15: Color Token Usage
+
+**Prompt:**
+```
+What Tailwind classes should I use for a success state background and text?
+```
+
+**Expected with skill:** Returns `bg-green-3` for background, `text-green-11` for text, `border-green-4` for border. Explains 12-step scale.
+
+**Expected without skill:** May use generic Tailwind like `bg-green-100 text-green-800`.
+
+---
+
+### Test 16: CVA Pattern
+
+**Prompt:**
+```
+Create a new status indicator component with green, yellow, and red variants following Resend patterns.
+```
+
+**Expected with skill:**
+- Uses `cva` from `class-variance-authority`
+- Uses `cn()` from `@/lib/cn`
+- String literal size props (`'1'`, `'2'`)
+- `VariantProps` for type inference
+
+**Expected without skill:** May use conditional classNames or inline styles.
+
+---
+
+### Test 17: State Management
+
+**Prompt:**
+```
+How do I make a Button show a loading state in Resend?
+```
+
+**Expected with skill:** Uses `state="loading"`, NOT separate `disabled` + `loading` booleans.
+
+**Expected without skill:** May suggest `disabled={true}` with a custom spinner.
+
+---
+
+### Test 18: Server vs Client Boundary
+
+**Prompt:**
+```
+I need a card with a heading, text, and a button that opens a dialog. Which parts need 'use client'?
+```
+
+**Expected with skill:** Only Dialog interaction needs `'use client'`. Card, Heading, Text, Button are server-safe. Extract Dialog into small client component.
+
+**Expected without skill:** May add `'use client'` to the entire file.
+
+---
+
+### Test 19: Full Page Scenario
+
+**Prompt:**
+```
+Build a settings form with a title, description, email text field with validation, a toggle switch, and save/cancel buttons using Resend's design system.
+```
+
+**Expected with skill:**
+- `Heading` for title, `Text` for description
+- `TextField.Root/Slot/Input` with `state="invalid"` and `TextField.Error`
+- `Switch` for toggle
+- `Button appearance="white"` for save, `Button appearance="fade"` for cancel
+- Correct imports from `@/ui/*`
+- `'use client'` only where needed
+
+**Expected without skill:** Mix of generic HTML, wrong APIs, or incorrect styling.
+
+---
+
+### Test 20: TextField Validation Error
+
+**Prompt:**
+```
+Show an inline validation error message below an email input using Resend's TextField.
+```
+
+**Expected with skill:**
+- `TextField.Input` gets `state="invalid"`
+- `TextField.Error` is placed inside a trailing `TextField.Slot`
+- Does NOT also pass `error=` prop on Input or manually set `aria-describedby`
+
+**Expected without skill:** May use a `<p>` below the input, miss `state="invalid"`, or wire aria-describedby manually.
+
+---
+
+### Test 21: TextField Read-Only State
+
+**Prompt:**
+```
+How do I make a TextField read-only in Resend?
+```
+
+**Expected with skill:** `state="read-only"` on `TextField.Input`, not `readOnly={true}`.
+
+**Expected without skill:** May use HTML `readOnly` attribute or `disabled`.
+
+---
+
+### Test 22: Banner vs Tag
+
+**Prompt:**
+```
+I need to show a "Your account is suspended" warning in Resend. Should I use a Banner or a Tag?
+```
+
+**Expected with skill:** Banner — it's for page/section-level messages with `role="alert"`, auto icon, `appearance="red"` for error state. Tag is for inline labels on items (status, category).
+
+**Expected without skill:** May guess either without explaining the distinction.
+
+---
+
+### Test 23: DropdownMenu vs Select
+
+**Prompt:**
+```
+I need a button that opens a menu with "Edit", "Duplicate", and "Delete" actions. Should I use Select or DropdownMenu?
+```
+
+**Expected with skill:** DropdownMenu — Select is for choosing a value (form input). DropdownMenu is for action menus. Uses `import * as DropdownMenu from '@/ui/dropdown-menu'`.
+
+**Expected without skill:** May use Select incorrectly or not know the distinction.
+
+---
+
+### Test 24: Dialog Button Appearances
+
+**Prompt:**
+```
+A dialog asks the user to confirm deleting an item. Write the dialog with appropriate button appearances for the confirm and cancel actions.
+```
+
+**Expected with skill:**
+- Delete/confirm button: `appearance="red"` (destructive)
+- Cancel button: `appearance="fade"` or `appearance="gray"` (secondary)
+- Knows the color convention: white=primary, gray=secondary, fade=ghost, red=destructive
+
+**Expected without skill:** May use `variant="destructive"` / `variant="outline"`, or guess wrong appearances.
+
+---
+
+### Test 25: Submit Button Loading
+
+**Prompt:**
+```
+A form submit button should show a spinner and prevent re-submission while the form is saving. How do you implement this in Resend?
+```
+
+**Expected with skill:** `state={isSaving ? "loading" : "normal"}` on Button — a single prop handles both the spinner and non-interactivity. Does NOT use `disabled={isSaving}` + separate spinner component.
+
+**Expected without skill:** Uses `disabled={isLoading}` with a custom loading indicator alongside.
+
+---
+
+### Test 26: Complex Server/Client Split
+
+**Prompt:**
+```
+A page shows a list of API keys fetched server-side. Each row has a 'Revoke' button that opens a confirmation dialog. How do you structure the 'use client' boundaries?
+```
+
+**Expected with skill:**
+- Page component + list rendering stay as Server Components
+- Extract `<RevokeDialog />` per row as a small Client Component (`'use client'`)
+- Button and list items are server-safe; only Dialog interaction needs client boundary
+
+**Expected without skill:** May mark entire page or list component as `'use client'`.
+
+---
+
+### Test 27: Primary vs Secondary Button Appearances
+
+**Prompt:**
+```
+A form has a 'Save changes' button (primary action) and a 'Discard' button (secondary/ghost). Which appearance should each use in Resend?
+```
+
+**Expected with skill:**
+- Save: `appearance="white"` (primary — inverted black/white, flips in dark mode)
+- Discard: `appearance="fade"` or `appearance="fade-gray"` (ghost/subtle)
+
+**Expected without skill:** May use `variant="primary"` / `variant="outline"`, or mix up which appearance maps to which role.
+
+---
+
+### Test 28: CVA Appearance vs State Naming
+
+**Prompt:**
+```
+Create a notification badge with 'success', 'warning', and 'error' visual styles following Resend's CVA conventions. What prop name should control the visual style?
+```
+
+**Expected with skill:**
+- Uses `appearance` prop (not `variant`, `type`, or `state`) for visual styles
+- `state` is reserved for interactive states (disabled, loading) — not for visual variants
+- CVA: `variants: { appearance: { success: '...', warning: '...', error: '...' } }`
+
+**Expected without skill:** May use `state`, `variant`, or `type` instead of `appearance`.
+
+---
+
 ## Test Results Log
 
 | Test | Date | Baseline Result | With Skill Result | Pass? |
@@ -199,3 +458,4 @@ Create a Resend-branded announcement card for social media. It should announce "
 | 9 | 2026-01-29 | Generic "announcement card" best practices | Specific "Interface Scene" pattern with exact structure | ✅ |
 | 10 | 2026-01-29 | Dark recommended (generic reasoning) | Cited "dark-first philosophy", "accent colors communicate state not style" | ✅ |
 | 11 | 2026-01-29 | Wrong fonts (Inter), wrong colors (purple), generic layout | Correct Big Number pattern, Domaine, sentence case, noise texture, font gradient | ✅ |
+| 12-28 | — | — | — | — |
