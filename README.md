@@ -57,12 +57,30 @@ Component APIs, design tokens, and composition patterns for building product UI 
 
 ---
 
+### marketing-pages
+
+Page structure, component reuse rules, and public primitives for creating and editing marketing pages in `src/app/(website)/`.
+
+**Page Structure** — Required `PublicPage.Root/Header/Container/Footer` composition pattern
+
+**Public Primitives** from `src/website/` (never use `src/ui/` on marketing pages):
+- `PublicHeading` — sizes 1–6, colors: white | gradient
+- `PublicText` — sizes 1–5, colors: white | gray | gradient
+- `PublicButton` — appearances: white | black | black-fade | fade | red
+
+**Shared Components** — 16+ reusable sections in `src/components/website/` (FeatureGrid, Carousel, CodeSnippet, Quote, etc.)
+
+**SEO** — Required metadata export and JSON-LD structured data for every page
+
+---
+
 ## Usage
 
 Once installed, Claude will automatically apply the right skill based on context:
 
 - Ask for brand colors, typography specs, or logo assets → `resend-brand`
 - Build UI components, forms, or pages in the Resend codebase → `resend-design-system`
+- Create or edit marketing pages in `src/app/(website)/` → `marketing-pages`
 
 ### Example Prompts
 
@@ -80,6 +98,10 @@ Create a confirmation dialog with a destructive delete action
 
 ```
 I'm designing a Resend social graphic. What layout pattern should I use?
+```
+
+```
+Create a new marketing page for the webhooks feature
 ```
 
 ## License
