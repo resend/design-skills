@@ -29,6 +29,7 @@ This prevents duplicate issues when the routine runs more than once before the p
 linear:create_issue
   title: "Design audit — {YYYY-MM-DD}"
   team: "Design"
+  project: "Design Audit"  # https://linear.app/resend/project/design-audit-59b6c51f2dee
   labels: ["design-audit"]
   body: <rendered markdown from report-format.md>
 ```
@@ -54,8 +55,8 @@ If the Linear MCP call fails (tool unavailable, auth error, network error):
 
 Do not retry more than once. If the second attempt also fails, stop and surface the error.
 
-## Team and label configuration
+## Team, project, and label configuration
 
-- **Team:** `Design` (the team name as configured in your Linear workspace)
+- **Team:** `Design`
+- **Project:** `Design Audit` — https://linear.app/resend/project/design-audit-59b6c51f2dee
 - **Label:** `design-audit` — create this label in Linear before the first run if it does not exist
-- These values are set once when connecting the Linear MCP server and do not need to change per run
