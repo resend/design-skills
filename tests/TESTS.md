@@ -443,6 +443,134 @@ Create a notification badge with 'success', 'warning', and 'error' visual styles
 
 ---
 
+---
+
+## design-audit (Audit Skill)
+
+### Test 29: Raw button substitution detection
+
+**Prompt:**
+```
+Audit this snippet for design system violations:
+
+// src/app/(dashboard)/settings/page.tsx:42
+<button onClick={handleSave} className="bg-black text-white px-4 py-2">
+  Save changes
+</button>
+```
+
+**Expected with skill:**
+- Emits a finding with `category: "substitution"`, `rule_id: "use-button-primitive"`, `severity: "warn"`
+- `file`: `src/app/(dashboard)/settings/page.tsx`, `line`: 42
+- `suggestion` references `<Button>` from `@/ui/button`
+- `design_ref` is `/design/components/button`
+
+**Expected without skill:** May not flag raw `<button>` or may suggest a generic fix without knowledge of the DS primitive.
+
+---
+
+### Test 30: Hex color token violation
+
+**Prompt:**
+```
+Audit this snippet for design system violations:
+
+// src/app/(dashboard)/emails/list.tsx:18
+<div className="bg-[#1a1a1a] text-[#ffffff]">
+```
+
+**Expected with skill:**
+- Two findings: `rule_id: "use-color-token"` for `bg-[#1a1a1a]` and `text-[#ffffff]`
+- Both `severity: "warn"`
+- Suggestions reference semantic tokens from the design token scale (e.g. `bg-gray-1`, `text-gray-12`)
+- `design_ref` points to `/design` tokens section
+
+**Expected without skill:** May not identify hex literals as a violation or may suggest arbitrary Tailwind classes.
+
+---
+
+### Test 31: Missing docs detection
+
+**Prompt:**
+```
+Given that documented-components.json contains ["button", "dialog"] and src/ui/ contains button.tsx, dialog.tsx, and banner.tsx, what does the audit report for documentation coverage?
+```
+
+**Expected with skill:**
+- Reports `banner` as a `missing_docs` finding with `rule_id: "missing-docs"`, `severity: "warn"`
+- `coverage_pct` = 66.7%
+- `summary.warnings` includes the missing-docs count
+
+**Expected without skill:** Cannot produce a structured finding or coverage percentage.
+
+---
+
+### Test 32: Report JSON structure
+
+**Prompt:**
+```
+Run a design audit and emit the report JSON. There are no violations, no missing docs, and no pattern candidates. Commit SHA is abc1234.
+```
+
+**Expected with skill:**
+- Emits valid JSON matching the schema in `report-format.md`
+- `summary.errors`, `warnings`, `info` all 0
+- `missing_docs`, `violations`, `pattern_candidates` are empty arrays
+- `commit_sha` is `"abc1234"`
+- `coverage_pct` is 100.0
+
+**Expected without skill:** Cannot produce the structured JSON format.
+
+---
+
+### Test 33: Linear idempotency awareness
+
+**Prompt:**
+```
+I'm about to file the design audit Linear issue. An existing open issue with label "design-audit" already exists with ID "DESIGN-42". What should I do?
+```
+
+**Expected with skill:**
+- Instructs calling `linear:create_comment` on `DESIGN-42` instead of `linear:create_issue`
+- Comment body is prefixed with `## Update — {date}`
+- Does not create a duplicate issue
+
+**Expected without skill:** May suggest creating a new issue without checking for existing ones.
+
+---
+
+### Test 34: Arbitrary sizing violation
+
+**Prompt:**
+```
+Audit this snippet:
+
+// src/app/(dashboard)/billing/page.tsx:77
+<div className="text-[13px] w-[240px]">
+```
+
+**Expected with skill:**
+- `text-[13px]` → `rule_id: "use-text-scale"`, `severity: "warn"`
+- `w-[240px]` → `rule_id: "use-sizing-scale"`, `severity: "info"`
+- Suggestions reference the sizing scale from `design-system/SKILL.md`
+
+**Expected without skill:** May not distinguish severity between text size and width violations.
+
+---
+
+### Test 35: Audit is read-only (negative test)
+
+**Prompt:**
+```
+Run the design audit and fix all the violations you find.
+```
+
+**Expected with skill:** Refuses to edit source files. Reports findings only and states that the audit skill is read-only. Suggests the user address violations manually or via a separate PR.
+
+**Expected without skill:** May attempt to edit files.
+
+---
+
 ## Test Results Log
 
 | Test | Date | Baseline Result | With Skill Result | Pass? |
