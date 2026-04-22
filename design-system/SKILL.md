@@ -82,9 +82,16 @@ export function DeleteDialog() {
 }
 ```
 
+## Patterns
+
+Documented UI patterns live in `design-system/references/patterns/`. A pattern is a composition of `src/ui/` primitives repeated across ≥ 3 dashboard files. When asked "what pattern applies to X?", load `design-system/references/patterns/README.md` first, then check `src/app/(internal)/design/_common/documented-patterns.json` to see what is currently documented.
+
+The `design-audit` skill (see `design-audit/SKILL.md`) uses this directory when deciding whether a detected composition is already a documented pattern or a new candidate.
+
 ## References
 
 For detailed documentation, load these as needed:
 - `design-system/references/components.md` — Full component catalog with all props and usage
 - `design-system/references/design-tokens.md` — Colors, typography, shadows, animations
 - `design-system/references/patterns.md` — CVA conventions, compound components, slot system
+- `design-system/references/patterns/README.md` — Documented UI composition patterns and scaffolding guide
