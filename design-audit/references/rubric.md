@@ -1,6 +1,8 @@
 # Audit Rubric
 
-Five categories to check. Each finding requires: `file`, `line`, `category`, `severity`, `rule_id`, `suggestion`, `design_ref`.
+Six categories to check. Categories 1–5 flag violations against existing rules. Category 6 flags gaps in the rules themselves.
+
+Each violation finding requires: `file`, `line`, `category`, `severity`, `rule_id`, `suggestion`, `design_ref`.
 
 ## Setup
 
@@ -108,3 +110,30 @@ Also flag files that appear to re-implement primitives already in `src/ui/`:
 - `proposed_name` — a slug name for the pattern (e.g. `empty-state`, `confirm-dialog`)
 - `occurrences` — array of `file:line` where the pattern appears
 - `rationale` — one sentence on why this should be a documented pattern
+
+---
+
+## Category 6 — Rubric candidates
+
+**Scope:** Everything observed during the full audit run.
+
+**What to look for:**
+
+A rubric candidate is a recurring misuse or anti-pattern that appears in ≥ 3 dashboard files but is **not covered by any existing rule** in this rubric. Examples:
+- A `Tooltip` always composed without an `aria-label` on its trigger
+- A layout idiom (e.g. a card header with icon + title + action) that bypasses a primitive but also doesn't match any existing substitution rule
+- A CSS utility or custom class recreating something the DS already provides, but not caught by the token-misuse grep patterns
+- Consistent `className` overrides on a primitive that suggest a missing variant
+
+**How to identify:**
+1. While running categories 1–5, note anything that feels like a systemic problem but doesn't fit an existing rule
+2. Look for it in at least 3 files before flagging — one-offs are noise
+3. Confirm it's not already covered by an existing rule ID
+
+**Output:** Emit as `rubric_candidates` in the report, not as `violations`. These are proposed additions to the design skill or this rubric.
+
+**Fields required:**
+- `proposed_rule_id` — a slug for the new rule (e.g. `tooltip-accessible-trigger`, `card-header-primitive`)
+- `occurrences` — array of `file:line` showing the pattern
+- `rationale` — one sentence on why this should be a rule
+- `suggested_fix` — what the rule should prescribe (a primitive to use, a prop to set, a pattern to follow)

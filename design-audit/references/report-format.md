@@ -34,6 +34,14 @@ Emit this JSON first (used for programmatic consumption and Linear body generati
       "occurrences": ["src/app/(dashboard)/emails/page.tsx:88", "src/app/(dashboard)/domains/page.tsx:34"],
       "rationale": "Icon + heading + description + CTA repeated across 3+ dashboard pages without a documented pattern."
     }
+  ],
+  "rubric_candidates": [
+    {
+      "proposed_rule_id": "tooltip-accessible-trigger",
+      "occurrences": ["src/app/(dashboard)/settings/page.tsx:14", "src/app/(dashboard)/domains/page.tsx:62"],
+      "rationale": "Tooltip trigger consistently lacks aria-label, but no rule currently enforces this.",
+      "suggested_fix": "Require aria-label on all Tooltip.Trigger elements that wrap icon-only buttons."
+    }
   ]
 }
 ```
@@ -102,6 +110,28 @@ These compositions appear in 3+ files and could be extracted as documented patte
 {FOR EACH CANDIDATE}
 **`{proposed_name}`**
 {rationale}
+Occurrences: {occurrences joined by ", "}
+
+{END FOR}
+</details>
+{END IF}
+
+---
+
+### Rubric candidates ({COUNT})
+
+{IF NONE}
+_No uncovered misuse patterns detected._
+{ELSE}
+These recurring misuses aren't covered by any existing rule and may warrant a new rule in the design skill or rubric:
+
+<details>
+<summary>Candidates</summary>
+
+{FOR EACH CANDIDATE}
+**`{proposed_rule_id}`**
+{rationale}
+Suggested fix: {suggested_fix}
 Occurrences: {occurrences joined by ", "}
 
 {END FOR}
