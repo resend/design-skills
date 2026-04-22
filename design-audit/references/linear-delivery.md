@@ -1,27 +1,28 @@
 # Linear Delivery Playbook
 
-How to file or update the weekly design audit issue via Linear MCP.
+One ticket per audit run. The ticket is a curated summary, not a dump of every finding.
 
 ## Tools
 
-- `linear:list_issues` — check for an existing open audit issue
+- `linear:list_issues` — check for existing open or cancelled issues
 - `linear:create_issue` — open a new issue
-- `linear:create_comment` — add a comment to an existing issue
+- `linear:create_comment` — add a weekly update to an existing open issue
 
-## Step 1 — Check for an existing open issue
+## Step 1 — Check for existing issues
 
-Before creating anything, call:
+Call:
 
 ```
 linear:list_issues
-  filter: { label: "design-audit", state: { type: "unstarted" } }
+  filter: { label: "design-audit" }
   team: "Design"
 ```
 
-- If **no open issue** is found → proceed to Step 2 (create).
-- If **an open issue** is found → proceed to Step 3 (comment).
+Evaluate the results:
 
-This prevents duplicate issues when the routine runs more than once before the previous issue is closed.
+- **An open issue exists** (state: unstarted, started, or in-progress) → go to Step 3 (comment). Do not create a duplicate.
+- **A cancelled issue exists** → do not reopen it. Stop. Print the cancelled issue ID and title to the session transcript and exit.
+- **No issue exists** → go to Step 2 (create).
 
 ## Step 2 — Create a new issue
 
@@ -31,12 +32,23 @@ linear:create_issue
   team: "Design"
   project: "Design Audit"  # https://linear.app/resend/project/design-audit-59b6c51f2dee
   labels: ["design-audit"]
+  state: "Triage"
+  priority: {derived from report — see Priority rules below}
   body: <rendered markdown from report-format.md>
 ```
 
-The body must be the full markdown report from `report-format.md`. Do not truncate.
+### Priority rules
 
-## Step 3 — Comment on an existing issue
+Pick the highest priority that applies:
+
+| Condition | Priority |
+|-----------|----------|
+| Any `error` severity finding | Urgent |
+| `warnings` > 10 or a `rubric_candidate` present | High |
+| Only `warn` findings, ≤ 10 | Medium |
+| Only `info` findings | Low |
+
+## Step 3 — Comment on an existing open issue
 
 ```
 linear:create_comment
@@ -44,19 +56,9 @@ linear:create_comment
   body: "## Update — {YYYY-MM-DD}\n\n<rendered markdown from report-format.md>"
 ```
 
-Prefix the body with `## Update — {date}` so the thread is scannable.
-
 ## Failure handling
 
-If the Linear MCP call fails (tool unavailable, auth error, network error):
-1. Print the full error to the session transcript.
-2. Print the complete rendered markdown report to the session transcript so findings are not lost.
-3. Do not silently continue. The session transcript is the fallback record.
-
-Do not retry more than once. If the second attempt also fails, stop and surface the error.
-
-## Team, project, and label configuration
-
-- **Team:** `Design`
-- **Project:** `Design Audit` — https://linear.app/resend/project/design-audit-59b6c51f2dee
-- **Label:** `design-audit` — create this label in Linear before the first run if it does not exist
+If any Linear MCP call fails:
+1. Print the full error and the complete rendered markdown report to the session transcript.
+2. Do not retry more than once.
+3. Do not silently continue — the transcript is the fallback record.
