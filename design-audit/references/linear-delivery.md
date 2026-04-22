@@ -21,8 +21,17 @@ linear:list_issues
 Evaluate the results:
 
 - **An open issue exists** (state: unstarted, started, or in-progress) → go to Step 3 (comment). Do not create a duplicate.
-- **A cancelled issue exists** → do not reopen it. Stop. Print the cancelled issue ID and title to the session transcript and exit.
+- **A cancelled issue exists** → go to Step 1a before deciding whether to create.
 - **No issue exists** → go to Step 2 (create).
+
+## Step 1a — Compare against cancelled issue
+
+Read the body of the most recently cancelled `design-audit` issue. Extract the `rule_id` values mentioned in its findings.
+
+Compare them against the `rule_id` values in the current run's top findings:
+
+- **All top findings are already in the cancelled issue** (same rule_ids, same or similar files) → the team already reviewed and dismissed these. Do not create a new issue. Print a note to the session transcript: "Skipped — all findings match cancelled issue {ID}." Stop.
+- **At least one top finding has a rule_id not present in the cancelled issue** → there is something new. Proceed to Step 2, but **exclude from the ticket body** any findings that were already present in the cancelled issue. Only surface the new findings.
 
 ## Step 2 — Create a new issue
 
