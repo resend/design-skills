@@ -1,16 +1,29 @@
 # Linear Delivery Playbook
 
-One ticket per audit run. The ticket is a curated summary, not a dump of every finding.
+One ticket per distinct finding or suggestion. Each ticket covers one rule violation type, one missing doc, one pattern candidate, or one rubric candidate — and lists every affected file in its body.
 
 ## Tools
 
-- `linear:list_issues` — check for existing open or cancelled issues
-- `linear:create_issue` — open a new issue
-- `linear:create_comment` — add a weekly update to an existing open issue
+- `linear:list_issues` — check for existing or cancelled issues before creating
+- `linear:create_issue` — open a ticket for a finding
+- `linear:create_comment` — add context to an existing open ticket
 
-## Step 1 — Check for existing issues
+## What produces a ticket
 
-Call:
+| Source | Ticket title shape | One ticket per |
+|--------|--------------------|----------------|
+| `missing_docs` | "Document the `{component}` component" | Component |
+| `violations` | "Replace {raw element} with `{primitive}`" / "Fix token misuse in {area}" | rule_id |
+| `pattern_candidates` | "Document the `{proposed_name}` pattern" | Proposed pattern |
+| `rubric_candidates` | "Add `{proposed_rule_id}` rule to design skill" | Proposed rule |
+
+Violations with the same `rule_id` across multiple files → **one ticket** listing all affected files. Do not create a ticket per file.
+
+## For each ticket to create
+
+### Step 1 — Check for a duplicate or cancelled ticket
+
+Before creating, call:
 
 ```
 linear:list_issues
@@ -18,56 +31,62 @@ linear:list_issues
   team: "Design"
 ```
 
-Evaluate the results:
+- **An open ticket with the same title or same rule_id already exists** → comment on it with any new affected files. Do not create a duplicate.
+- **A cancelled ticket for this same finding exists** → skip it entirely. The team already decided not to act on it. Move to the next finding.
+- **No matching ticket** → create it (Step 2).
 
-- **An open issue exists** (state: unstarted, started, or in-progress) → go to Step 3 (comment). Do not create a duplicate.
-- **A cancelled issue exists** → go to Step 1a before deciding whether to create.
-- **No issue exists** → go to Step 2 (create).
-
-## Step 1a — Compare against cancelled issue
-
-Read the body of the most recently cancelled `design-audit` issue. Extract the `rule_id` values mentioned in its findings.
-
-Compare them against the `rule_id` values in the current run's top findings:
-
-- **All top findings are already in the cancelled issue** (same rule_ids, same or similar files) → the team already reviewed and dismissed these. Do not create a new issue. Print a note to the session transcript: "Skipped — all findings match cancelled issue {ID}." Stop.
-- **At least one top finding has a rule_id not present in the cancelled issue** → there is something new. Proceed to Step 2, but **exclude from the ticket body** any findings that were already present in the cancelled issue. Only surface the new findings.
-
-## Step 2 — Create a new issue
+### Step 2 — Create the ticket
 
 ```
 linear:create_issue
-  title: "Design audit — {YYYY-MM-DD}"
+  title: {title from table above}
   team: "Design"
   project: "Design Audit"  # https://linear.app/resend/project/design-audit-59b6c51f2dee
   labels: ["design-audit"]
   state: "Triage"
-  priority: {derived from report — see Priority rules below}
-  body: <rendered markdown from report-format.md>
+  priority: {see Priority rules}
+  body: {see Body format}
 ```
 
 ### Priority rules
 
-Pick the highest priority that applies:
-
 | Condition | Priority |
 |-----------|----------|
-| Any `error` severity finding | Urgent |
-| `warnings` > 10 or a `rubric_candidate` present | High |
-| Only `warn` findings, ≤ 10 | Medium |
-| Only `info` findings | Low |
+| `error` severity | Urgent |
+| `warn` severity | Medium |
+| `info` severity, pattern candidate, rubric candidate | Low |
 
-## Step 3 — Comment on an existing open issue
+### Body format
 
+Plain markdown only. No HTML tags.
+
+```markdown
+{one sentence describing the problem}
+
+**Rule:** `{rule_id}` · [Design reference]({design_ref})
+
+**Affected files:**
+- `{file}:{line}` — {suggestion}
+- `{file}:{line}` — {suggestion}
+
+**Suggestion:** {suggestion}
 ```
-linear:create_comment
-  issue_id: <id of the open issue>
-  body: "## Update — {YYYY-MM-DD}\n\n<rendered markdown from report-format.md>"
+
+For pattern and rubric candidates:
+
+```markdown
+{rationale}
+
+**Occurrences:**
+- `{file}:{line}`
+- `{file}:{line}`
+
+**Suggested fix:** {suggested_fix}
 ```
 
 ## Failure handling
 
 If any Linear MCP call fails:
-1. Print the full error and the complete rendered markdown report to the session transcript.
-2. Do not retry more than once.
-3. Do not silently continue — the transcript is the fallback record.
+1. Print the full error to the session transcript.
+2. Print the list of tickets that were not created.
+3. Do not retry more than once.
