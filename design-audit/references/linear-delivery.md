@@ -2,6 +2,8 @@
 
 One ticket per distinct finding or suggestion. Each ticket covers one rule violation type, one missing doc, one pattern candidate, or one rubric candidate — and lists every affected file in its body.
 
+**Error-severity findings always get a ticket.** They are never skipped due to curation limits, duplicate-title heuristics, or run-to-run de-duplication. The only exception is a pre-existing *open* ticket for the same `rule_id` — in that case, comment with the new occurrences instead of creating a duplicate. A cancelled ticket does NOT suppress an error: create a new ticket regardless.
+
 ## Tools
 
 - `linear:list_issues` — check for existing or cancelled issues before creating
@@ -13,7 +15,12 @@ One ticket per distinct finding or suggestion. Each ticket covers one rule viola
 | Source | Ticket title shape | One ticket per |
 |--------|--------------------|----------------|
 | `missing_docs` | "Document the `{component}` component" | Component |
-| `violations` | "Replace {raw element} with `{primitive}`" / "Fix token misuse in {area}" | rule_id |
+| `violations` (structural) | "Replace {raw element} with `{primitive}`" / "Fix token misuse in {area}" | rule_id |
+| `violations` (`use-sentence-case`) | "Fix sentence case in dashboard copy" | rule_id |
+| `violations` (`copy-typo`) | "Fix typos in dashboard copy" | rule_id |
+| `violations` (`avoid-vague-cta`) | "Replace vague CTAs in dashboard" | rule_id |
+| `violations` (`brand-terminology`) | "Fix brand terminology in dashboard copy" | rule_id |
+| `violations` (`brand-voice`) | "Fix tone and voice in dashboard copy" | rule_id |
 | `pattern_candidates` | "Document the `{proposed_name}` pattern" | Proposed pattern |
 | `rubric_candidates` | "Add `{proposed_rule_id}` rule to design skill" | Proposed rule |
 
