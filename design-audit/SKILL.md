@@ -31,12 +31,14 @@ Audits `src/app/(dashboard)*` for design system compliance and `src/ui/` for doc
 
 ### Step 2 — Run rubric checks
 
-Follow `references/rubric.md` exactly. Run all five categories:
+Follow `references/rubric.md` exactly. Run all categories:
 1. Missing documentation
 2. Component substitution violations
 3. Token misuse
 4. Deprecated component usage
 5. Pattern candidates
+6. Rubric candidates (implicit — note systemic issues not covered by any rule)
+7. Copy & brand voice
 
 Cross-reference the `resend-design-system` skill to verify whether a DS primitive exists for a flagged use case before marking it a violation.
 

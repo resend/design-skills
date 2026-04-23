@@ -1,6 +1,6 @@
 # Audit Rubric
 
-Six categories to check. Categories 1–5 flag violations against existing rules. Category 6 flags gaps in the rules themselves.
+Seven categories to check. Categories 1–5 and 7 flag violations against existing rules. Category 6 flags gaps in the rules themselves.
 
 Each violation finding requires: `file`, `line`, `category`, `severity`, `rule_id`, `suggestion`, `design_ref`.
 
@@ -137,3 +137,106 @@ A rubric candidate is a recurring misuse or anti-pattern that appears in ≥ 3 d
 - `occurrences` — array of `file:line` showing the pattern
 - `rationale` — one sentence on why this should be a rule
 - `suggested_fix` — what the rule should prescribe (a primitive to use, a prop to set, a pattern to follow)
+
+---
+
+## Category 7 — Copy & brand voice
+
+**Scope:** `src/app/(dashboard)*/**/*.tsx`
+
+**What to check:** User-facing strings — JSX text nodes, `placeholder`, `aria-label`, `title` prop values, and string arguments to `description`, `label`, and similar props.
+
+**How to run:** Two passes.
+
+1. **Grep pass** — fast, deterministic checks (rules 7a, 7c, 7d, 7e partial)
+2. **LLM pass** — glob `src/app/(dashboard)/*/page.tsx` plus key nested routes to get ~15 representative pages. Read each file, extract hardcoded strings with their line numbers, then apply the remaining rules (7b, 7d partial, 7e).
+
+Each violation finding requires `file`, `line`, `category: "copy"`, `severity`, `rule_id`, `suggestion`, and `design_ref`.
+
+---
+
+### 7a — Sentence case
+
+**Rule ID:** `use-sentence-case` · **Severity:** `warn`
+
+Resend uses sentence case everywhere: headings, buttons, labels, nav items, error messages. Title Case is a violation.
+
+**Grep** for common patterns where 2+ consecutive words are title-cased inside JSX text nodes (not proper nouns):
+- `>Save Changes`, `>Get Started`, `>Learn More`, `>View All`, `>Add New`, `>Create New`, `>Sign In`, `>Sign Up`, `>Log Out`, `>Read More`, `>Try Again`
+
+**LLM pass:** Flag any button label, heading, or CTA with 2+ title-cased words that are not proper nouns (product names, company names, acronyms).
+
+**Suggestion:** Use sentence case — e.g., "Save Changes" → "Save changes", "Get Started" → "Get started"
+**Design ref:** `/design` (brand guidelines — typography rules)
+
+---
+
+### 7b — Typos and misleading copy
+
+**Rule ID:** `copy-typo` · **Severity:** `error`
+
+**Grep** for known common misspellings inside string literals and JSX text:
+- `recieve` → `receive`
+- `occured` / `occurance` → `occurred` / `occurrence`
+- `seperate` → `separate`
+- `existance` → `existence`
+- `privelege` / `priviledge` → `privilege`
+- `definitly` → `definitely`
+- `sucessful` / `succesful` → `successful`
+
+**LLM pass:** For each sampled file, flag any clear spelling errors, double spaces, grammatically broken phrases, or **misleading copy** — text that describes a feature, action, or state incorrectly (e.g. a button labelled "Delete" that actually archives, or an error message that names the wrong field).
+
+**Suggestion:** Fix the specific typo, grammar issue, or inaccurate description.
+
+---
+
+### 7c — Vague CTAs
+
+**Rule ID:** `avoid-vague-cta` · **Severity:** `info`
+
+CTAs should be specific and action-oriented. Generic text fails clarity and accessibility.
+
+**Grep** for these patterns as complete (or near-complete) JSX text node content:
+- `>Click here<` / `>Click Here<`
+- `>here<` / `>Here<` as standalone link text
+- `>Read more<` / `>Read More<` as a standalone CTA
+
+**Suggestion:** Replace with a specific action — "Click here" → "View API keys", "Read more" → "Read about webhooks"
+
+---
+
+### 7d — Brand terminology
+
+**Rule ID:** `brand-terminology` · **Severity:** `warn`
+
+Key terms must be spelled and capitalised consistently.
+
+**Grep** for these patterns in JSX text nodes and string literals:
+
+| Pattern | Correct | Note |
+|---------|---------|------|
+| `e-mail` / `E-mail` | `email` / `Email` | No hyphen |
+| `RESEND` in UI text | `Resend` | Product name is not all-caps |
+| `Re-send` | `Resend` | No hyphen in product name |
+
+**LLM pass:** Review sampled strings for inconsistent use of feature names and product terms (e.g. "API Key" vs "API key", "web hook" vs "webhook").
+
+**Suggestion:** Use the correct form: `email`, `Resend`, `webhook`, `API key`.
+**Design ref:** `/design` (brand guidelines)
+
+---
+
+### 7e — Tone and voice
+
+**Rule ID:** `brand-voice` · **Severity:** `info`
+
+Resend's voice is direct, minimal, and developer-focused. Flag copy that drifts into marketing superlatives, excessive enthusiasm, or unnecessary filler.
+
+**Grep** for these patterns inside JSX text nodes:
+- Marketing superlatives: `powerful`, `amazing`, `supercharge`, `seamlessly`, `effortlessly`, `incredible`, `world-class`
+- Exclamation overuse: a `!` at the end of a text node in error messages, form labels, or confirmations (celebratory empty-state messages are fine)
+
+**LLM pass:** For sampled files, flag strings that feel inconsistent with the Resend brand voice — too promotional, too casual, or padded with filler phrases ("just", "simply", "easily").
+
+**Suggestion:** Rewrite to be direct and specific. "Powerful email delivery" → "Email delivery for developers". Remove filler adverbs.
+**Design ref:** `/design` (brand guidelines — design principles)

@@ -4,10 +4,11 @@
 
 **Do not list every finding.** The goal is an actionable ticket, not an exhaustive log.
 
-1. **Top findings:** Pick the 5 most impactful findings across all categories. Rank by: severity first (error > warn > info), then by number of affected files. These are the only findings that appear in the Linear ticket body.
-2. **Counts only for the rest:** Everything outside the top 5 is summarised as a count (e.g. "12 more warnings across token misuse and substitution").
-3. **Skip info-only runs:** If all findings are `info` severity and there are fewer than 5, note "No significant violations found this week" and skip the findings section entirely.
-4. **No HTML:** Do not use `<details>`, `<summary>`, or any HTML tags. Linear renders plain markdown only.
+1. **Errors are always logged in full.** Every `error`-severity finding must appear in the ticket body and get its own Linear ticket — no exceptions, no count summaries. They are never folded into "N more findings".
+2. **Top findings (warn/info):** After errors, pick the 5 most impactful non-error findings. Rank by: number of affected files, then `warn` before `info`. These are the only non-error findings that appear in the Linear ticket body.
+3. **Counts only for the rest:** Everything outside the top 5 non-error findings is summarised as a count (e.g. "12 more warnings across token misuse and substitution").
+4. **Skip info-only runs:** If all findings are `info` severity and there are fewer than 5, note "No significant violations found this week" and skip the findings section entirely.
+5. **No HTML:** Do not use `<details>`, `<summary>`, or any HTML tags. Linear renders plain markdown only.
 
 ---
 
@@ -37,6 +38,24 @@ Emit this JSON internally (not in the ticket body — use it to build the markdo
       "rule_id": "use-button-primitive",
       "suggestion": "Use <Button> from @/ui/button",
       "design_ref": "/design/components/button"
+    },
+    {
+      "file": "src/app/(dashboard)/domains/page.tsx",
+      "line": 18,
+      "category": "copy",
+      "severity": "warn",
+      "rule_id": "use-sentence-case",
+      "suggestion": "\"Add New Domain\" → \"Add new domain\"",
+      "design_ref": "/design"
+    },
+    {
+      "file": "src/app/(dashboard)/emails/page.tsx",
+      "line": 73,
+      "category": "copy",
+      "severity": "error",
+      "rule_id": "copy-typo",
+      "suggestion": "\"Sucessfully sent\" → \"Successfully sent\"",
+      "design_ref": ""
     }
   ],
   "pattern_candidates": [
@@ -72,13 +91,21 @@ Use this structure for the Linear ticket body. Fill in only the sections that ha
 
 ---
 
+{IF any error findings — always include this section, no matter how many}
+### Errors ({COUNT})
+
+{FOR EACH error finding — list every one, no truncation}
+- **[{rule_id}]** `{file}:{line}` — {suggestion}
+
+---
+
 ### Top findings
 
-{FOR EACH OF THE TOP 5 FINDINGS, one bullet per finding}
+{FOR EACH OF THE TOP 5 WARN/INFO FINDINGS, one bullet per finding}
 - **[{rule_id}]** `{file}:{line}` — {suggestion} → [{design_ref}]({design_ref})
 
-{IF more findings beyond top 5}
-_{N} more findings ({REMAINING_ERRORS} errors, {REMAINING_WARNINGS} warnings, {REMAINING_INFO} info) — run the audit locally to see the full list._
+{IF more warn/info findings beyond top 5}
+_{N} more findings ({REMAINING_WARNINGS} warnings, {REMAINING_INFO} info) — run the audit locally to see the full list._
 
 ---
 
