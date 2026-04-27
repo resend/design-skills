@@ -26,6 +26,20 @@ One ticket per distinct finding or suggestion. Each ticket covers one rule viola
 
 Violations with the same `rule_id` across multiple files → **one ticket** listing all affected files. Do not create a ticket per file.
 
+## Preflight — Check the triage backlog
+
+Before creating any tickets, evaluate the current Triage backlog so the audit doesn't pile another overwhelming batch on top of unresolved work.
+
+```
+linear:list_issues
+  filter: { label: "design-audit", state: "Triage" }
+  team: "Design"
+```
+
+- **0–9 pending in Triage:** proceed normally.
+- **10 or more pending in Triage:** do **not** create new `warn`/`info` tickets, pattern candidates, or rubric candidates this run. Comment new occurrences on existing open tickets where applicable, and note in the report: "Triage backlog at {N} — deferred {M} non-error tickets until backlog drops below 10."
+- **Errors are exempt:** `error`-severity findings are always filed regardless of backlog size (per the rule at the top of this doc).
+
 ## For each ticket to create
 
 ### Step 1 — Check for a duplicate or cancelled ticket
