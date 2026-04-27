@@ -48,7 +48,7 @@ Emit the structured JSON defined in `references/report-format.md`, then render i
 
 ### Step 4 — Deliver via Linear
 
-Follow `references/linear-delivery.md` to file or update the Linear issue.
+Follow `references/linear-delivery.md` to file or update the Linear issue. Before creating any tickets, run the triage-backlog preflight in that doc — if 10+ tickets are already pending in Triage, defer non-error tickets this run.
 
 ## References
 
