@@ -16,6 +16,7 @@ One ticket per distinct finding or suggestion. Each ticket covers one rule viola
 |--------|--------------------|----------------|
 | `missing_docs` | "Document the `{component}` component" | Component |
 | `violations` (structural) | "Replace {raw element} with `{primitive}`" / "Fix token misuse in {area}" | rule_id |
+| `violations` (`icon-button-requires-tooltip`) | "Wrap icon buttons in a Tooltip" | rule_id |
 | `violations` (`use-sentence-case`) | "Fix sentence case in dashboard copy" | rule_id |
 | `violations` (`copy-typo`) | "Fix typos in dashboard copy" | rule_id |
 | `violations` (`avoid-vague-cta`) | "Replace vague CTAs in dashboard" | rule_id |

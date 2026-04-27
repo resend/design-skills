@@ -49,6 +49,20 @@ Also flag files that appear to re-implement primitives already in `src/ui/`:
 **Severity:** `warn`
 **Design ref:** `/design/components/<component-name>`
 
+### 2a — Icon buttons require a tooltip
+
+**Rule ID:** `icon-button-requires-tooltip` · **Severity:** `warn`
+
+Icon-only buttons have no visible label, so hovering must reveal one via `Tooltip`. Every `IconButton` (and any `Button` rendered icon-only) must be wrapped in a `Tooltip` whose content matches the button's `aria-label`.
+
+**How to detect:**
+1. Grep `src/app/(dashboard)*/**/*.tsx` for `<IconButton` and for `<Button` instances whose children are a single icon component (no text node, no `children` string).
+2. For each match, walk outward in the JSX tree: if no ancestor `<Tooltip>` (or `Tooltip.Trigger asChild`) wraps it, flag it.
+3. Also flag cases where the icon button is inside a `Tooltip` but the tooltip content is empty or doesn't match the button's `aria-label`.
+
+**Suggestion:** Wrap the icon button in `<Tooltip content="…">` from `@/ui/tooltip`, using the same label as the button's `aria-label`.
+**Design ref:** `/design/components/icon-button`
+
 ---
 
 ## Category 3 — Token misuse
