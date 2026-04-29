@@ -31,7 +31,7 @@ Before running any category, read `sidebar-data.ts` to extract the **alias map**
 
 ## Category 2 — Component substitution
 
-**Scope:** `src/app/(dashboard)*/**/*.tsx`
+**Scope:** `src/app/(dashboard)*/**/*.tsx` and `src/components/**/*.tsx`
 
 **What to grep for:**
 
@@ -46,6 +46,18 @@ Before running any category, read `sidebar-data.ts` to extract the **alias map**
 Also flag files that appear to re-implement primitives already in `src/ui/`:
 - Any file outside `src/ui/` that defines a component named `Switch`, `Checkbox`, `TextField`, `TextInput`, `Modal`, `Tooltip`, or `Drawer` (case-insensitive match on the export name)
 
+**Hand-rolled dropdown menus — `use-dropdown-tokens`**
+
+Files outside `src/ui/` that compose their own dropdown / menu surface instead of reusing `DropdownMenu` from `@/ui/dropdown-menu` or the shared `dropdown.*` token groups in `src/ui/shared.ts`.
+
+Detect when a file matches **both** of these signals:
+1. Imports or renders `Popover.Content` (from `@/ui/popover`) — or a floating `div` with `max-h-[` and `overflow-y-auto` — as the menu surface.
+2. Contains child item elements (`<button>`, `<a>`, or role="menuitem") whose `className` re-creates dropdown item styles: a combination of `rounded-(lg|xl)`, `px-2`, and any of `bg-gray-a2`, `text-gray-9`, `text-gray-10`, `text-gray-a10`, or selected-state pairs like `bg-gray-a2 text-gray-10`.
+
+**Severity:** `warn`
+**Suggestion:** Compose with `DropdownMenu.Root/Content/Item` from `@/ui/dropdown-menu`. If a custom surface is genuinely required (e.g. a typeahead anchored to an editor), reuse the `dropdown.content.appearance`, `dropdown.item.sizing`, and `dropdown.item.appearance.gray` token groups exported from `@/ui/shared` instead of redefining the classes inline.
+**Design ref:** `/design/components/dropdown-menu`
+
 **Severity:** `warn`
 **Design ref:** `/design/components/<component-name>`
 
@@ -53,7 +65,7 @@ Also flag files that appear to re-implement primitives already in `src/ui/`:
 
 ## Category 3 — Token misuse
 
-**Scope:** `src/app/(dashboard)*/**/*.tsx`
+**Scope:** `src/app/(dashboard)*/**/*.tsx` and `src/components/**/*.tsx`
 
 **What to grep for:**
 
