@@ -43,8 +43,21 @@ Before running any category, read `sidebar-data.ts` to extract the **alias map**
 | `<dialog` | `use-dialog-primitive` | Use `Dialog.Root/Content` from `@/ui/dialog` |
 | `<textarea` | `use-text-area-primitive` | Use `TextField.Input` with `asChild` or a dedicated textarea primitive |
 
-Also flag files that appear to re-implement primitives already in `src/ui/`:
-- Any file outside `src/ui/` that defines a component named `Switch`, `Checkbox`, `TextField`, `TextInput`, `Modal`, `Tooltip`, or `Drawer` (case-insensitive match on the export name)
+Also flag files that appear to re-implement primitives already in `src/ui/`. The list is **derived from `documented-components.json`** (loaded in Step 1) so it stays in sync as new components are documented.
+
+**Rule ID:** `reimplements-primitive`
+
+**How to check:**
+1. Build the set of documented component names from `documented-components.json`, applying the alias map from `sidebar-data.ts` in reverse (e.g. `combobox` is also matched by an export named `Command`).
+2. Remove names on the **generic denylist** below — these are too common to enforce without high false-positive rates:
+   - `Card`, `Text`, `Heading`, `Tag`, `Badge`, `Avatar`, `Spinner`, `Label`, `Link`, `Image`, `Icon`
+3. For each remaining name, search files **outside `src/ui/`** for a top-level export whose name matches case-insensitively (`export function <Name>`, `export const <Name> =`, `export default function <Name>`, `export { <Name> }`).
+4. A match is a finding **only if** the file does not also `import { <Name> } from '@/ui/<name>'` — files that wrap or re-export the primitive are not re-implementations.
+5. `TextInput` is an additional alias for `TextField` — keep matching it even though it isn't in `documented-components.json`.
+
+**Severity:** `warn`
+**Suggestion:** "Use `<Name>` from `@/ui/<name>` instead of re-implementing it. If a wrapper is genuinely needed, import the primitive and extend it."
+**Design ref:** `/design/components/<name>`
 
 **Hand-rolled dropdown menus — `use-dropdown-tokens`**
 
@@ -57,9 +70,6 @@ Detect when a file matches **both** of these signals:
 **Severity:** `warn`
 **Suggestion:** Compose with `DropdownMenu.Root/Content/Item` from `@/ui/dropdown-menu`. If a custom surface is genuinely required (e.g. a typeahead anchored to an editor), reuse the `dropdown.content.appearance`, `dropdown.item.sizing`, and `dropdown.item.appearance.gray` token groups exported from `@/ui/shared` instead of redefining the classes inline.
 **Design ref:** `/design/components/dropdown-menu`
-
-**Severity:** `warn`
-**Design ref:** `/design/components/<component-name>`
 
 ---
 
