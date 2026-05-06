@@ -37,6 +37,21 @@ Primary neutral for text, borders, backgrounds:
 | 9-10 | High-contrast text, solid fills |
 | 11-12 | Maximum contrast text |
 
+### Allowed palettes
+
+Only these palettes exist in the system: `gray`, `violet`, `green`, `red`, `yellow`, `blue`, `orange`, `sand`, `cyan` (plus `light-gray-*` for forced-light contexts).
+
+Tailwind default palettes — `slate`, `zinc`, `neutral`, `stone`, `emerald`, `teal`, `sky`, `indigo`, `purple`, `fuchsia`, `pink`, `rose`, `amber`, `lime` — are **deprecated**. Do not use them in any utility (`bg-`, `text-`, `border-`, `ring-`, `from-`, etc.). Map by intent:
+
+| Deprecated | Use instead |
+|------------|-------------|
+| `slate`, `zinc`, `neutral`, `stone` | `gray` (or `sand` for warm neutrals) |
+| `emerald`, `teal`, `lime` | `green` |
+| `sky` | `blue` or `cyan` |
+| `indigo`, `purple`, `fuchsia` | `violet` |
+| `pink`, `rose` | `red` |
+| `amber` | `yellow` or `orange` |
+
 ### Backgrounds
 
 Light: `#fdfdfd` — Dark: `#000`
