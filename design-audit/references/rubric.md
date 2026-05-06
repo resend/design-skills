@@ -87,8 +87,17 @@ Detect when a file matches **both** of these signals:
 | `bg-\[#` | Hex color background | `use-color-token` | `warn` |
 | `text-\[#` | Hex color text | `use-color-token` | `warn` |
 | `border-\[#` | Hex color border | `use-color-token` | `warn` |
+| `(bg\|text\|border\|ring\|fill\|stroke\|from\|via\|to\|outline\|divide\|placeholder\|caret\|accent\|shadow\|decoration)-(slate\|zinc\|neutral\|stone\|emerald\|teal\|sky\|indigo\|purple\|fuchsia\|pink\|rose\|amber\|lime)-` | Deprecated Tailwind default palette (e.g. `bg-slate-100`, `text-zinc-500`) | `use-color-token` | `warn` |
 
-**Suggestion for color violations:** Replace hex literals with semantic color tokens from `design-system/references/design-tokens.md` (e.g. `bg-gray-2`, `text-gray-11`).
+**Suggestion for color violations:** Replace hex literals and deprecated Tailwind default palettes (`slate`, `zinc`, `neutral`, `stone`, `emerald`, `teal`, `sky`, `indigo`, `purple`, `fuchsia`, `pink`, `rose`, `amber`, `lime`) with the Resend semantic tokens defined in `design-system/references/design-tokens.md`. Map by intent, not by name:
+- `slate` / `zinc` / `neutral` / `stone` → `gray` (or `sand` for warm neutrals)
+- `emerald` / `teal` / `lime` → `green`
+- `sky` → `blue` or `cyan`
+- `indigo` / `purple` / `fuchsia` → `violet`
+- `pink` / `rose` → `red`
+- `amber` → `yellow` or `orange`
+
+Use Radix steps (1–12), e.g. `bg-gray-2`, `text-gray-11`, `border-gray-4`.
 **Suggestion for sizing violations:** Use the sizing scale defined in `design-system/SKILL.md` or a standard Tailwind step.
 **Design ref:** `/design` (design tokens section)
 
