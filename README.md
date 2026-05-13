@@ -15,20 +15,26 @@ npx skills add resend/design-skills
 Brand guidelines for marketing materials, social graphics, presentations, and external-facing visual content.
 
 **Colors**
+
 - Resend Black: `#000000` / Resend White: `#FDFDFD`
-- Semantic colors for state: Gray, Red, Amber, Green, Blue with background/foreground pairs
+- Brand tokens: `bg-brand`, `bg-brand-hover`, `text-on-brand`, `ring-brand` (theme-aware: black light / white dark)
+- Semantic status colors: error (red), warning (yellow/amber), success (green), info (blue), link
+- Each status has paired tokens: `bg-X`, `border-X`, `border-X-subtle`, `text-X` (plus hover/ring variants where used)
 
 **Typography**
+
 - **Domaine Display Narrow** — Display headlines (never in product UI)
 - **Favorit** — Headings & titles
 - **Inter** — Body text
 - **CommitMono** — Code
 
 **Logo Assets**
+
 - CDN links to official wordmarks and lettermarks (SVG/PNG)
 - Usage restrictions and clearspace requirements
 
 **Design Elements**
+
 - Gradients (font, smooth, border, rainbow)
 - Glass blur effect, noise texture
 - Layout patterns (Right Object Scene, Interface Scene, Text Only variants, Big Number)
@@ -40,6 +46,7 @@ Brand guidelines for marketing materials, social graphics, presentations, and ex
 Component APIs, design tokens, and composition patterns for building product UI inside the Resend codebase.
 
 **UI Components** — 57+ primitives in `src/ui/` built on Radix UI and styled with CVA:
+
 - **Actions** — Button, IconButton, CopyButton
 - **Form** — TextField (compound), Select, Checkbox, Switch, Calendar
 - **Display** — Heading, Text, Tag, Banner, Avatar, Card, EmptyState
@@ -48,10 +55,14 @@ Component APIs, design tokens, and composition patterns for building product UI 
 - **Feedback** — Toast, Skeleton, LoadingDots
 - **Icons** — 100+ SVG icons in `src/ui/icons/`
 
-**Design Tokens** from `src/styles/globals.css`:
-- Radix-based semantic color palette with 12-step scales
+**Design Tokens** from `src/styles/globals.css` (primitives) and `src/styles/tokens.css` (semantic layer):
+
+- Semantic tokens: surfaces (`bg-elevated`, `bg-subtle`), text (`text-default`, `text-emphasis`, `text-muted`, `text-placeholder`), borders (`border-default`, `border-subtle`, `border-interactive`), interactive (`bg-interactive`, `bg-interactive-hover`, `ring-focus`), brand (`bg-brand` + variants), status (error/warning/success/info), link (`text-link`, `border-link`, `ring-link`)
+- Primitives: gray scale 1–12 (solid + `a2`/`a3`/`a4` alpha), Radix-based colored families (red, yellow→amber-alpha, green, blue, etc.)
 - Typography scale (Inter, ABC Favorit, Domaine, Commit Mono)
 - Component sizing scale (1/2/3), border radius, shadows, 20+ animations
+
+**Token philosophy:** prefer semantic names first; fall through to primitives only when no semantic token fits.
 
 **Component Patterns** — CVA conventions, compound components, slot system, Server vs Client boundaries
 
@@ -64,6 +75,7 @@ Page structure, component reuse rules, and public primitives for creating and ed
 **Page Structure** — Required `PublicPage.Root/Header/Container/Footer` composition pattern
 
 **Public Primitives** from `src/website/` (never use `src/ui/` on marketing pages):
+
 - `PublicHeading` — sizes 1–6, colors: white | gradient
 - `PublicText` — sizes 1–5, colors: white | gray | gradient
 - `PublicButton` — appearances: white | black | black-fade | fade | red

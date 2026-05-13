@@ -5,6 +5,7 @@ Tests for design-skills. Run scenarios WITH and WITHOUT skills loaded to verify 
 ## How to Run Tests
 
 For each scenario:
+
 1. **Baseline (RED):** Run with a subagent that does NOT have the skill loaded
 2. **With Skill (GREEN):** Run with a subagent that HAS the skill loaded
 3. **Compare:** Document differences in behavior
@@ -14,6 +15,7 @@ For each scenario:
 ### Test 1: Routing Discovery
 
 **Prompt:**
+
 ```
 I need help with Resend design. What design resources are available?
 ```
@@ -29,6 +31,7 @@ I need help with Resend design. What design resources are available?
 ### Test 2: Color Retrieval
 
 **Prompt:**
+
 ```
 What hex color should I use for the primary brand color on a Resend marketing page?
 ```
@@ -42,27 +45,33 @@ What hex color should I use for the primary brand color on a Resend marketing pa
 ### Test 3: Semantic Color Application
 
 **Prompt:**
+
 ```
 I'm building a Resend-branded alert component. What colors should I use for error, warning, and success states?
 ```
 
 **Expected with skill:**
-- Error: Red `#FE4E54` (solid) or `#FFD1D9` (light)
-- Warning: Amber `#FFC53D` (solid) or `#FFE7B3` (light)
-- Success: Green `#44FFA4` (solid) or `#BBFFD7` (light)
 
-**Expected without skill:** Generic colors or incorrect brand colors.
+- Uses semantic tokens, not raw primitives or hex literals:
+  - Error: `bg-error`, `border-error`, `text-error` (and `bg-error-hover`, `ring-error`, `border-error-subtle` where applicable)
+  - Warning: `bg-warning`, `border-warning`, `text-warning`, `border-warning-subtle`
+  - Success: `bg-success`, `border-success`, `text-success`, `border-success-subtle`
+- Knows Resend uses `yellow-*` classes for warning (which map to amber-alpha under the hood), not `amber-*` classes directly.
+
+**Expected without skill:** Raw hex literals, Tailwind default palettes (e.g. `bg-amber-500`), or primitive class names (`bg-red-3 text-red-11`) where semantic tokens exist.
 
 ---
 
 ### Test 4: Typography Rules
 
 **Prompt:**
+
 ```
 Create a heading style for a Resend landing page hero section.
 ```
 
 **Expected with skill:**
+
 - Uses Domaine Display Narrow for display headlines
 - Uses sentence case (not Title Case or ALL CAPS)
 - Does NOT use bold on Domaine
@@ -74,11 +83,13 @@ Create a heading style for a Resend landing page hero section.
 ### Test 5: Typography Restrictions (Negative Test)
 
 **Prompt:**
+
 ```
 Style this Resend page title in bold Domaine font with title case: "Welcome To Resend"
 ```
 
 **Expected with skill:** Refuses or corrects both violations:
+
 1. Never use Domaine in bold
 2. Use sentence case ("Welcome to Resend")
 
@@ -89,11 +100,13 @@ Style this Resend page title in bold Domaine font with title case: "Welcome To R
 ### Test 6: Logo Usage
 
 **Prompt:**
+
 ```
 I need the Resend logo for a dark background. What asset should I use and what are the size requirements?
 ```
 
 **Expected with skill:**
+
 - White wordmark: `https://cdn.resend.com/brand/resend-wordmark-white.svg` (or .png)
 - Minimum size: 16px height (extreme), 24px preferred
 - Clearspace: 1/2 cap height on all sides
@@ -105,11 +118,13 @@ I need the Resend logo for a dark background. What asset should I use and what a
 ### Test 7: Logo Restrictions (Negative Test)
 
 **Prompt:**
+
 ```
 Rotate the Resend logo 45 degrees and add a drop shadow for this social media graphic.
 ```
 
 **Expected with skill:** Refuses both modifications, citing logo restrictions:
+
 - Never rotate
 - Never apply effects
 
@@ -120,11 +135,13 @@ Rotate the Resend logo 45 degrees and add a drop shadow for this social media gr
 ### Test 8: Gradient Application
 
 **Prompt:**
+
 ```
 What gradient should I use for text on a Resend hero section?
 ```
 
 **Expected with skill:**
+
 ```
 linear-gradient(97deg, #ffffff 30%, rgba(255,255,255,0.50) 100%)
 ```
@@ -136,11 +153,13 @@ linear-gradient(97deg, #ffffff 30%, rgba(255,255,255,0.50) 100%)
 ### Test 9: Layout Pattern Selection
 
 **Prompt:**
+
 ```
 I'm designing a Resend social graphic to announce a new feature. It should show a UI screenshot. What layout pattern should I use?
 ```
 
 **Expected with skill:** Recommends "Interface Scene" pattern:
+
 - Label top-left
 - Title bottom-left (2 lines)
 - UI screenshot as background
@@ -152,11 +171,13 @@ I'm designing a Resend social graphic to announce a new feature. It should show 
 ### Test 10: Design Principles Application
 
 **Prompt:**
+
 ```
 Should I design this Resend component with a light or dark background? It has colorful accent elements.
 ```
 
 **Expected with skill:**
+
 - Dark-first design philosophy
 - Accent colors communicate state, not style
 - Sharp contrast between black and light
@@ -168,11 +189,13 @@ Should I design this Resend component with a light or dark background? It has co
 ### Test 11: Full Application Scenario
 
 **Prompt:**
+
 ```
 Create a Resend-branded announcement card for social media. It should announce "50 million emails sent" as a milestone. Provide the complete design specification.
 ```
 
 **Expected with skill:**
+
 - Layout: "Big Number" pattern (large Domaine number, small label below)
 - Typography: Domaine Display Narrow for "50M", sentence case
 - Colors: Resend Black background, Resend White text
@@ -191,11 +214,13 @@ Create a Resend-branded announcement card for social media. It should announce "
 ### Test 12: TextField Composition
 
 **Prompt:**
+
 ```
 Build a search input with an icon on the left and a clear button on the right using Resend's TextField.
 ```
 
 **Expected with skill:**
+
 - Uses compound pattern: `TextField.Root > TextField.Slot + TextField.Input + TextField.Slot`
 - Correct import from `@/ui/text-field/text-field`
 - Slots positioned correctly (before and after Input)
@@ -207,11 +232,13 @@ Build a search input with an icon on the left and a clear button on the right us
 ### Test 13: Dialog Construction
 
 **Prompt:**
+
 ```
 Create a confirmation dialog with a destructive delete action using Resend components.
 ```
 
 **Expected with skill:**
+
 - Uses `Dialog.Root`, `Dialog.Trigger`, `Dialog.Content`, `Dialog.Title`
 - Import as `import * as Dialog from '@/ui/dialog'`
 - Delete button uses `appearance="red"` or `appearance="fade-red"`
@@ -224,11 +251,13 @@ Create a confirmation dialog with a destructive delete action using Resend compo
 ### Test 14: Select Component
 
 **Prompt:**
+
 ```
 Build a dropdown select with two groups of options using Resend's Select primitive.
 ```
 
 **Expected with skill:**
+
 - Uses namespace import: `import * as Select from '@/ui/select'`
 - Uses `Select.Root > Select.Trigger + Select.Content > Select.Label + Select.Item + Select.Separator`
 - Trigger has correct `size` and `appearance` props
@@ -240,24 +269,27 @@ Build a dropdown select with two groups of options using Resend's Select primiti
 ### Test 15: Color Token Usage
 
 **Prompt:**
+
 ```
 What Tailwind classes should I use for a success state background and text?
 ```
 
-**Expected with skill:** Returns `bg-green-3` for background, `text-green-11` for text, `border-green-4` for border. Explains 12-step scale.
+**Expected with skill:** Returns semantic tokens: `bg-success` for background, `text-success` for text, `border-success` (or `border-success-subtle` for quieter contexts) for border. Mentions the two-layer system (semantic first, fall through to primitives like `green-*` only when no semantic name fits).
 
-**Expected without skill:** May use generic Tailwind like `bg-green-100 text-green-800`.
+**Expected without skill:** May use generic Tailwind like `bg-green-100 text-green-800`, or reach for primitives (`bg-green-3 text-green-11`) where semantic tokens exist.
 
 ---
 
 ### Test 16: CVA Pattern
 
 **Prompt:**
+
 ```
 Create a new status indicator component with green, yellow, and red variants following Resend patterns.
 ```
 
 **Expected with skill:**
+
 - Uses `cva` from `class-variance-authority`
 - Uses `cn()` from `@/lib/cn`
 - String literal size props (`'1'`, `'2'`)
@@ -270,6 +302,7 @@ Create a new status indicator component with green, yellow, and red variants fol
 ### Test 17: State Management
 
 **Prompt:**
+
 ```
 How do I make a Button show a loading state in Resend?
 ```
@@ -283,6 +316,7 @@ How do I make a Button show a loading state in Resend?
 ### Test 18: Server vs Client Boundary
 
 **Prompt:**
+
 ```
 I need a card with a heading, text, and a button that opens a dialog. Which parts need 'use client'?
 ```
@@ -296,11 +330,13 @@ I need a card with a heading, text, and a button that opens a dialog. Which part
 ### Test 19: Full Page Scenario
 
 **Prompt:**
+
 ```
 Build a settings form with a title, description, email text field with validation, a toggle switch, and save/cancel buttons using Resend's design system.
 ```
 
 **Expected with skill:**
+
 - `Heading` for title, `Text` for description
 - `TextField.Root/Slot/Input` with `state="invalid"` and `TextField.Error`
 - `Switch` for toggle
@@ -315,11 +351,13 @@ Build a settings form with a title, description, email text field with validatio
 ### Test 20: TextField Validation Error
 
 **Prompt:**
+
 ```
 Show an inline validation error message below an email input using Resend's TextField.
 ```
 
 **Expected with skill:**
+
 - `TextField.Input` gets `state="invalid"`
 - `TextField.Error` is placed inside a trailing `TextField.Slot`
 - Does NOT also pass `error=` prop on Input or manually set `aria-describedby`
@@ -331,6 +369,7 @@ Show an inline validation error message below an email input using Resend's Text
 ### Test 21: TextField Read-Only State
 
 **Prompt:**
+
 ```
 How do I make a TextField read-only in Resend?
 ```
@@ -344,6 +383,7 @@ How do I make a TextField read-only in Resend?
 ### Test 22: Banner vs Tag
 
 **Prompt:**
+
 ```
 I need to show a "Your account is suspended" warning in Resend. Should I use a Banner or a Tag?
 ```
@@ -357,6 +397,7 @@ I need to show a "Your account is suspended" warning in Resend. Should I use a B
 ### Test 23: DropdownMenu vs Select
 
 **Prompt:**
+
 ```
 I need a button that opens a menu with "Edit", "Duplicate", and "Delete" actions. Should I use Select or DropdownMenu?
 ```
@@ -370,11 +411,13 @@ I need a button that opens a menu with "Edit", "Duplicate", and "Delete" actions
 ### Test 24: Dialog Button Appearances
 
 **Prompt:**
+
 ```
 A dialog asks the user to confirm deleting an item. Write the dialog with appropriate button appearances for the confirm and cancel actions.
 ```
 
 **Expected with skill:**
+
 - Delete/confirm button: `appearance="red"` (destructive)
 - Cancel button: `appearance="fade"` or `appearance="gray"` (secondary)
 - Knows the color convention: white=primary, gray=secondary, fade=ghost, red=destructive
@@ -386,6 +429,7 @@ A dialog asks the user to confirm deleting an item. Write the dialog with approp
 ### Test 25: Submit Button Loading
 
 **Prompt:**
+
 ```
 A form submit button should show a spinner and prevent re-submission while the form is saving. How do you implement this in Resend?
 ```
@@ -399,11 +443,13 @@ A form submit button should show a spinner and prevent re-submission while the f
 ### Test 26: Complex Server/Client Split
 
 **Prompt:**
+
 ```
 A page shows a list of API keys fetched server-side. Each row has a 'Revoke' button that opens a confirmation dialog. How do you structure the 'use client' boundaries?
 ```
 
 **Expected with skill:**
+
 - Page component + list rendering stay as Server Components
 - Extract `<RevokeDialog />` per row as a small Client Component (`'use client'`)
 - Button and list items are server-safe; only Dialog interaction needs client boundary
@@ -415,11 +461,13 @@ A page shows a list of API keys fetched server-side. Each row has a 'Revoke' but
 ### Test 27: Primary vs Secondary Button Appearances
 
 **Prompt:**
+
 ```
 A form has a 'Save changes' button (primary action) and a 'Discard' button (secondary/ghost). Which appearance should each use in Resend?
 ```
 
 **Expected with skill:**
+
 - Save: `appearance="white"` (primary — inverted black/white, flips in dark mode)
 - Discard: `appearance="fade"` or `appearance="fade-gray"` (ghost/subtle)
 
@@ -430,11 +478,13 @@ A form has a 'Save changes' button (primary action) and a 'Discard' button (seco
 ### Test 28: CVA Appearance vs State Naming
 
 **Prompt:**
+
 ```
 Create a notification badge with 'success', 'warning', and 'error' visual styles following Resend's CVA conventions. What prop name should control the visual style?
 ```
 
 **Expected with skill:**
+
 - Uses `appearance` prop (not `variant`, `type`, or `state`) for visual styles
 - `state` is reserved for interactive states (disabled, loading) — not for visual variants
 - CVA: `variants: { appearance: { success: '...', warning: '...', error: '...' } }`
@@ -450,6 +500,7 @@ Create a notification badge with 'success', 'warning', and 'error' visual styles
 ### Test 29: Raw button substitution detection
 
 **Prompt:**
+
 ```
 Audit this snippet for design system violations:
 
@@ -460,6 +511,7 @@ Audit this snippet for design system violations:
 ```
 
 **Expected with skill:**
+
 - Emits a finding with `category: "substitution"`, `rule_id: "use-button-primitive"`, `severity: "warn"`
 - `file`: `src/app/(dashboard)/settings/page.tsx`, `line`: 42
 - `suggestion` references `<Button>` from `@/ui/button`
@@ -472,6 +524,7 @@ Audit this snippet for design system violations:
 ### Test 30: Hex color token violation
 
 **Prompt:**
+
 ```
 Audit this snippet for design system violations:
 
@@ -480,9 +533,10 @@ Audit this snippet for design system violations:
 ```
 
 **Expected with skill:**
+
 - Two findings: `rule_id: "use-color-token"` for `bg-[#1a1a1a]` and `text-[#ffffff]`
 - Both `severity: "warn"`
-- Suggestions reference semantic tokens from the design token scale (e.g. `bg-gray-1`, `text-gray-12`)
+- Suggestions reference semantic tokens from the design token scale first (e.g. `bg-elevated` or `bg-subtle` for the background, `text-emphasis` for the text); primitives like `gray-1`/`gray-12` only when no semantic role fits
 - `design_ref` points to `/design` tokens section
 
 **Expected without skill:** May not identify hex literals as a violation or may suggest arbitrary Tailwind classes.
@@ -492,11 +546,13 @@ Audit this snippet for design system violations:
 ### Test 31: Missing docs detection
 
 **Prompt:**
+
 ```
 Given that documented-components.json contains ["button", "dialog"] and src/ui/ contains button.tsx, dialog.tsx, and banner.tsx, what does the audit report for documentation coverage?
 ```
 
 **Expected with skill:**
+
 - Reports `banner` as a `missing_docs` finding with `rule_id: "missing-docs"`, `severity: "warn"`
 - `coverage_pct` = 66.7%
 - `summary.warnings` includes the missing-docs count
@@ -508,11 +564,13 @@ Given that documented-components.json contains ["button", "dialog"] and src/ui/ 
 ### Test 32: Report JSON structure
 
 **Prompt:**
+
 ```
 Run a design audit and emit the report JSON. There are no violations, no missing docs, and no pattern candidates. Commit SHA is abc1234.
 ```
 
 **Expected with skill:**
+
 - Emits valid JSON matching the schema in `report-format.md`
 - `summary.errors`, `warnings`, `info` all 0
 - `missing_docs`, `violations`, `pattern_candidates` are empty arrays
@@ -526,11 +584,13 @@ Run a design audit and emit the report JSON. There are no violations, no missing
 ### Test 33: Linear idempotency awareness
 
 **Prompt:**
+
 ```
 I'm about to file the design audit Linear issue. An existing open issue with label "design-audit" already exists with ID "DESIGN-42". What should I do?
 ```
 
 **Expected with skill:**
+
 - Instructs calling `linear:create_comment` on `DESIGN-42` instead of `linear:create_issue`
 - Comment body is prefixed with `## Update — {date}`
 - Does not create a duplicate issue
@@ -542,6 +602,7 @@ I'm about to file the design audit Linear issue. An existing open issue with lab
 ### Test 34: Arbitrary sizing violation
 
 **Prompt:**
+
 ```
 Audit this snippet:
 
@@ -550,6 +611,7 @@ Audit this snippet:
 ```
 
 **Expected with skill:**
+
 - `text-[13px]` → `rule_id: "use-text-scale"`, `severity: "warn"`
 - `w-[240px]` → `rule_id: "use-sizing-scale"`, `severity: "info"`
 - Suggestions reference the sizing scale from `design-system/SKILL.md`
@@ -561,6 +623,7 @@ Audit this snippet:
 ### Test 35: Audit is read-only (negative test)
 
 **Prompt:**
+
 ```
 Run the design audit and fix all the violations you find.
 ```
@@ -573,17 +636,17 @@ Run the design audit and fix all the violations you find.
 
 ## Test Results Log
 
-| Test | Date | Baseline Result | With Skill Result | Pass? |
-|------|------|-----------------|-------------------|-------|
-| 1 | 2026-01-29 | "No knowledge of official Resend design resources" | Listed resend-brand skill with purpose and location | ✅ |
-| 2 | 2026-01-29 | Guessed purple #7C3AED as accent - incorrect | Returned #000000 + #FDFDFD, explained semantic colors for state only | ✅ |
-| 3 | 2026-01-29 | Generic colors (#EF4444, #F59E0B, #10B981) | Exact brand colors (#FE4E54, #FFC53D, #44FFA4) + light variants | ✅ |
-| 4 | 2026-01-29 | Inter font, generic specs | Domaine Display Narrow, 96/96, -0.96px, sentence case, never bold | ✅ |
-| 5 | 2026-01-29 | Applied bold Domaine + Title Case (2 violations) | Refused both, corrected to regular weight + sentence case | ✅ |
-| 6 | 2026-01-29 | "Cannot provide exact URL" - generic suggestions | Exact CDN URLs + size requirements (24px pref, 16px min, clearspace) | ✅ |
-| 7 | 2026-01-29 | Provided full CSS for rotation + shadow (2 violations) | Refused both, cited restrictions, offered compliant alternatives | ✅ |
-| 8 | 2026-01-29 | "Don't have exact value" - gave generic gradient | Exact value: linear-gradient(97deg, #ffffff 30%, rgba(255,255,255,0.50) 100%) | ✅ |
-| 9 | 2026-01-29 | Generic "announcement card" best practices | Specific "Interface Scene" pattern with exact structure | ✅ |
-| 10 | 2026-01-29 | Dark recommended (generic reasoning) | Cited "dark-first philosophy", "accent colors communicate state not style" | ✅ |
-| 11 | 2026-01-29 | Wrong fonts (Inter), wrong colors (purple), generic layout | Correct Big Number pattern, Domaine, sentence case, noise texture, font gradient | ✅ |
-| 12-28 | — | — | — | — |
+| Test  | Date       | Baseline Result                                            | With Skill Result                                                                | Pass? |
+| ----- | ---------- | ---------------------------------------------------------- | -------------------------------------------------------------------------------- | ----- |
+| 1     | 2026-01-29 | "No knowledge of official Resend design resources"         | Listed resend-brand skill with purpose and location                              | ✅    |
+| 2     | 2026-01-29 | Guessed purple #7C3AED as accent - incorrect               | Returned #000000 + #FDFDFD, explained semantic colors for state only             | ✅    |
+| 3     | 2026-01-29 | Generic colors (#EF4444, #F59E0B, #10B981)                 | Exact brand colors (#FE4E54, #FFC53D, #44FFA4) + light variants                  | ✅    |
+| 4     | 2026-01-29 | Inter font, generic specs                                  | Domaine Display Narrow, 96/96, -0.96px, sentence case, never bold                | ✅    |
+| 5     | 2026-01-29 | Applied bold Domaine + Title Case (2 violations)           | Refused both, corrected to regular weight + sentence case                        | ✅    |
+| 6     | 2026-01-29 | "Cannot provide exact URL" - generic suggestions           | Exact CDN URLs + size requirements (24px pref, 16px min, clearspace)             | ✅    |
+| 7     | 2026-01-29 | Provided full CSS for rotation + shadow (2 violations)     | Refused both, cited restrictions, offered compliant alternatives                 | ✅    |
+| 8     | 2026-01-29 | "Don't have exact value" - gave generic gradient           | Exact value: linear-gradient(97deg, #ffffff 30%, rgba(255,255,255,0.50) 100%)    | ✅    |
+| 9     | 2026-01-29 | Generic "announcement card" best practices                 | Specific "Interface Scene" pattern with exact structure                          | ✅    |
+| 10    | 2026-01-29 | Dark recommended (generic reasoning)                       | Cited "dark-first philosophy", "accent colors communicate state not style"       | ✅    |
+| 11    | 2026-01-29 | Wrong fonts (Inter), wrong colors (purple), generic layout | Correct Big Number pattern, Domaine, sentence case, noise texture, font gradient | ✅    |
+| 12-28 | —          | —                                                          | —                                                                                | —     |
