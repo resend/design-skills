@@ -90,16 +90,66 @@ Detect when a file matches **both** of these signals:
 | `(bg\|text\|border\|ring\|fill\|stroke\|from\|via\|to\|outline\|divide\|placeholder\|caret\|accent\|shadow\|decoration)-(slate\|zinc\|neutral\|stone\|emerald\|teal\|sky\|indigo\|purple\|fuchsia\|pink\|rose\|amber\|lime)-` | Deprecated Tailwind default palette (e.g. `bg-slate-100`, `text-zinc-500`) | `use-color-token` | `warn` |
 
 **Suggestion for color violations:** Replace hex literals and deprecated Tailwind default palettes (`slate`, `zinc`, `neutral`, `stone`, `emerald`, `teal`, `sky`, `indigo`, `purple`, `fuchsia`, `pink`, `rose`, `amber`, `lime`) with the Resend semantic tokens defined in `design-system/references/design-tokens.md`. Map by intent, not by name:
-- `slate` / `zinc` / `neutral` / `stone` → `gray` (or `sand` for warm neutrals)
-- `emerald` / `teal` / `lime` → `green`
-- `sky` → `blue` or `cyan`
-- `indigo` / `purple` / `fuchsia` → `violet`
-- `pink` / `rose` → `red`
-- `amber` → `yellow` or `orange`
+- `slate` / `zinc` / `neutral` / `stone` → `text-default`, `text-muted`, `bg-elevated`, `border-default` (or `gray-*` / `sand-*` primitives as fallback)
+- `emerald` / `teal` / `lime` → `text-success`, `bg-success`, `border-success`
+- `sky` → `text-info`, `text-link` (or `blue-*` / `cyan-*` primitives)
+- `indigo` / `purple` / `fuchsia` → `violet-*` (no semantic family currently)
+- `pink` / `rose` → `text-error`, `bg-error`, `border-error`
+- `amber` → `text-warning`, `bg-warning`, `border-warning`
 
-Use Radix steps (1–12), e.g. `bg-gray-2`, `text-gray-11`, `border-gray-4`.
 **Suggestion for sizing violations:** Use the sizing scale defined in `design-system/SKILL.md` or a standard Tailwind step.
 **Design ref:** `/design` (design tokens section)
+
+### 3a — Prefer semantic tokens over primitives
+
+**Rule ID:** `prefer-semantic-token` · **Severity:** `warn`
+
+The codebase ships a semantic color layer in `src/styles/tokens.css` (see `design-system/references/design-tokens.md`). Components should reach for intent-named tokens first; raw primitives are escape hatches for cases where no semantic role fits.
+
+**What to flag:** Usage of these primitives where a semantic token exists:
+
+| Primitive class | Suggest semantic |
+| --- | --- |
+| `bg-gray-1` | `bg-subtle` |
+| `bg-gray-2` | `bg-elevated` |
+| `border-gray-2` | `border-subtle` |
+| `border-gray-3` | `border-default` |
+| `border-gray-a3` | `border-interactive` |
+| `bg-gray-a2` | `bg-interactive` |
+| `bg-gray-a3` | `bg-interactive-hover` (or `ring-focus` for focus rings) |
+| `text-gray-8` | `text-muted` |
+| `text-gray-11` | `text-default` |
+| `text-gray-12` | `text-emphasis` |
+| `bg-red-3` | `bg-error` |
+| `bg-red-5` | `bg-error-hover` |
+| `border-red-6` | `border-error` |
+| `border-red-4` | `border-error-subtle` |
+| `text-red-11` | `text-error` |
+| `ring-red-7` | `ring-error` |
+| `bg-yellow-3` | `bg-warning` |
+| `border-yellow-6` | `border-warning` |
+| `border-yellow-4` | `border-warning-subtle` |
+| `text-yellow-11` | `text-warning` |
+| `bg-green-3` | `bg-success` |
+| `border-green-6` | `border-success` |
+| `border-green-4` | `border-success-subtle` |
+| `text-green-11` | `text-success` |
+| `bg-blue-3` | `bg-info` |
+| `border-blue-4` | `border-info-subtle` |
+| `text-blue-11` | `text-info` |
+| `text-blue-9` | `text-link` |
+| `border-blue-9` | `border-link` |
+| `ring-blue-7` | `ring-link` |
+
+**Do not flag:**
+- Softer tiers without a semantic equivalent — `text-red-10`, `text-red-9`, `text-yellow-10`, `text-blue-10`, etc. (used by fade-style buttons and subtle states).
+- Mid-scale grays — `gray-4` through `gray-7`. These have no semantic name and are intentional escape hatches.
+- Theme-aware overrides (`dark:` variants on a semantic token) — let the token handle theme switching internally.
+- Event lifecycle colors consumed via schemas (mauve, cyan, violet, sand for `scheduled` / `received` / `clicked` / `draft` states).
+
+**Suggestion:** Replace `<primitive>` with `<semantic>`. The primitive can still be reached via the semantic token under the hood — components stop knowing which step of which scale to use.
+
+**Design ref:** `/design/tokens` (semantic layer section)
 
 ---
 

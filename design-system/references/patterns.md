@@ -11,8 +11,8 @@ import { cn } from '@/lib/cn';
 const myVariants = cva('base-classes', {
   variants: {
     appearance: {
-      gray: 'bg-gray-a2 border-gray-a3 text-gray-9',
-      white: 'bg-black text-white dark:bg-white dark:text-black',
+      gray: 'bg-interactive border-interactive text-default',
+      white: 'bg-brand text-on-brand',
     },
     size: {
       '1': 'h-6 text-xs px-2 rounded-lg',
