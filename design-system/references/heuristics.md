@@ -23,14 +23,12 @@ Load the relevant heuristic file when:
 | [api-first](heuristics/api-first.md) | How API and dashboard capabilities relate | Stable |
 | [error-and-alert-communication](heuristics/error-and-alert-communication.md) | Inline error vs alert vs notification vs page error | Stable |
 | [table-required-fields](heuristics/table-required-fields.md) | Which columns belong in a table's main view | Stable |
-| [button-appearance](heuristics/button-appearance.md) | Primary/secondary/icon button choices | TODO |
-| [complementary-information](heuristics/complementary-information.md) | Tooltip vs placeholder vs label vs drawer for helper content | TODO |
-| [copy-voice-tone](heuristics/copy-voice-tone.md) | Sentence case, empty states, voice & tone | TODO |
-| [predictable-by-design](heuristics/predictable-by-design.md) | Consistency between flows and API↔dashboard parity | TODO |
-| [affordance](heuristics/affordance.md) | Whether an element looks interactive when it shouldn't (or vice versa) | TODO |
-| [using-time](heuristics/using-time.md) | Relative vs absolute time, formats | TODO |
-| [friendly-names-over-ids](heuristics/friendly-names-over-ids.md) | When to show aliases instead of raw IDs | TODO |
-| [expose-debuggable-data](heuristics/expose-debuggable-data.md) | Surfacing raw payloads, error codes, sources | TODO |
+| [button-appearance](heuristics/button-appearance.md) | Primary/secondary/destructive/ghost button choices, Button vs IconButton | Stable |
+| [complementary-information](heuristics/complementary-information.md) | Tooltip vs placeholder vs label vs drawer for helper content | Stable |
+| [affordance](heuristics/affordance.md) | Whether an element looks interactive when it shouldn't (or vice versa) | Stable |
+| [using-time](heuristics/using-time.md) | Relative vs absolute time, formats, thresholds | Stable |
+| [friendly-names-over-ids](heuristics/friendly-names-over-ids.md) | When to show aliases instead of raw IDs | Stable |
+| [expose-debuggable-data](heuristics/expose-debuggable-data.md) | Surfacing raw payloads, error codes, sources | Stable |
 
 ## How heuristics relate to other parts of the design system
 
