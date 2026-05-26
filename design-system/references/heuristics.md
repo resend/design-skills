@@ -29,6 +29,7 @@ Load the relevant heuristic file when:
 | [using-time](heuristics/using-time.md) | Relative vs absolute time, formats, thresholds | Stable |
 | [friendly-names-over-ids](heuristics/friendly-names-over-ids.md) | When to show aliases instead of raw IDs | Stable |
 | [expose-debuggable-data](heuristics/expose-debuggable-data.md) | Surfacing raw payloads, error codes, sources | Stable |
+| [tag-colors-for-status](heuristics/tag-colors-for-status.md) | Reserving Tag / Badge colours for status, not decoration | Stable |
 
 ## How heuristics relate to other parts of the design system
 
