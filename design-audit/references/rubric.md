@@ -59,6 +59,24 @@ Also flag files that appear to re-implement primitives already in `src/ui/`. The
 **Suggestion:** "Use `<Name>` from `@/ui/<name>` instead of re-implementing it. If a wrapper is genuinely needed, import the primitive and extend it."
 **Design ref:** `/design/components/<name>`
 
+**Hand-rolled button state management — `use-state-prop`**
+
+Files that import `Button` or `IconButton` from `@/ui/` but manage disabled or loading states manually instead of using the `state` prop.
+
+Detect when a file matches **any** of these signals:
+
+1. A `Button` or `IconButton` has `disabled={<expression>}` where the expression is not a static `true`/`false` — e.g. `disabled={isLoading}`, `disabled={disabled || isLoading}`.
+2. A `Button` or `IconButton` has `appearance` conditionally set based on a loading or disabled variable — e.g. `appearance={isLoading ? 'gray' : 'fade'}`, `appearance={isSubmitDisabled ? 'gray' : 'fade'}`.
+3. A `Button` or `IconButton` has `className` conditions that gate accent/interactive styles on a loading or disabled variable — e.g. `!disabled && !isLoading && 'bg-accent!'`, `!isSubmitDisabled && 'text-on-accent!'`.
+4. An `IconButton` uses `asChild` and wraps a `<button disabled={...}>` child to work around the component's own disabled handling.
+
+**Severity:** `warn`
+**Rule ID:** `use-state-prop`
+**Suggestion:** Replace manual disabled/loading wiring with the `state` prop: `state="disabled"` or `state="loading"`. The `state` prop is self-sufficient — it handles the visual style, prevents interaction, and does not need to be combined with `disabled={}`, `appearance` overrides, or conditional `className` guards.
+**Design ref:** `/design/components/button`
+
+---
+
 **Hand-rolled dropdown menus — `use-dropdown-tokens`**
 
 Files outside `src/ui/` that compose their own dropdown / menu surface instead of reusing `DropdownMenu` from `@/ui/dropdown-menu` or the shared `dropdown.*` token groups in `src/ui/shared.ts`.

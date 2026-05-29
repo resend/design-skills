@@ -94,6 +94,34 @@ Use `state` prop, not individual booleans:
 <TextField.Input state="read-only" />
 ```
 
+The `state` prop is self-sufficient — it handles visuals and interaction in one place. Never combine it with manual `disabled`, `appearance` overrides, or conditional `className` guards:
+
+```tsx
+// ✅ Correct
+<Button state={isLoading ? 'loading' : 'normal'}>Save</Button>
+<IconButton state={isSubmitDisabled ? 'disabled' : 'normal'} aria-label="Submit">
+  <ArrowUpIcon />
+</IconButton>
+
+// ❌ Wrong — manual wiring duplicates what state already does
+<Button
+  appearance={isLoading ? 'gray' : 'fade'}
+  disabled={isLoading}
+  className={cn(!isLoading && 'bg-accent!')}
+>
+  Save
+</Button>
+
+// ❌ Wrong — asChild + <button disabled> to work around state
+<IconButton asChild aria-label="Submit">
+  <button disabled={isSubmitDisabled || undefined}>
+    {isLoading ? <Loader2 /> : <ArrowUpIcon />}
+  </button>
+</IconButton>
+```
+
+Rule: `use-state-prop` (see design-audit rubric Category 2).
+
 ## Shared Styling
 
 `src/ui/shared.ts` exports constants for dropdown/floating bar consistency:
