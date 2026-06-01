@@ -42,6 +42,8 @@ Follow `references/rubric.md` exactly. Run all categories:
 
 Cross-reference the `resend-design-system` skill to verify whether a DS primitive exists for a flagged use case before marking it a violation.
 
+For judgment-based findings (e.g. "this dialog should probably be a stepper", "this column is mostly empty", "this disabled button has no explanation"), cite the relevant file under `design-system/references/heuristics/` as the `design_ref`. Heuristics are guidelines, not rules — phrase the finding as a suggestion, not a violation, and route it to Category 6 (rubric candidates) when there is no existing rule to cite.
+
 ### Step 3 — Build the report
 
 Emit the structured JSON defined in `references/report-format.md`, then render it as markdown per the template in that file.

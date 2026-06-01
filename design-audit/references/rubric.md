@@ -223,6 +223,7 @@ A rubric candidate is a recurring misuse or anti-pattern that appears in ≥ 3 d
 - A layout idiom (e.g. a card header with icon + title + action) that bypasses a primitive but also doesn't match any existing substitution rule
 - A CSS utility or custom class recreating something the DS already provides, but not caught by the token-misuse grep patterns
 - Consistent `className` overrides on a primitive that suggest a missing variant
+- A heuristic from `design-system/references/heuristics/` repeatedly drifted from (e.g. dialogs used where steppers fit, hidden controls where disabling would be clearer, columns shown that are mostly empty). Cite the heuristic file as the `design_ref` and frame the candidate as a recurring judgment call, not a hard violation.
 
 **How to identify:**
 1. While running categories 1–5, note anything that feels like a systemic problem but doesn't fit an existing rule

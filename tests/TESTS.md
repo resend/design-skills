@@ -634,6 +634,47 @@ Run the design audit and fix all the violations you find.
 
 ---
 
+---
+
+## Heuristics (UX decision guidelines under `resend-design-system`)
+
+### Test 36: Dialog vs stepper decision
+
+**Prompt:**
+
+```
+I'm building a 3-step domain setup flow. Should it be a dialog or a stepper in Resend?
+```
+
+**Expected with skill:**
+
+- Recommends **stepper** because the task is complex, sporadic (one-off per domain), and ends on a follow-up page that still needs attention.
+- Cites the three-signal framing (workload, occurrence, context) from `design-system/references/heuristics/dialog-stepper-fullscreen-drawer.md`.
+- Frames the answer as a guideline, not an absolute rule — notes that escalation to `@design` is fine when the call is close.
+
+**Expected without skill:** Generic UX advice without referencing Resend's specific framing or escalation path.
+
+---
+
+### Test 37: Disable vs hide on a role-gated action
+
+**Prompt:**
+
+```
+The Export button is admin-only. For members, should I hide it or disable it?
+```
+
+**Expected with skill:**
+
+- Recommends **disable + clear feedback** (tooltip or inline reason). Keeps a stable mental map across roles.
+- Reserves hiding for sensitive data (billing, audit), not for role-gated actions.
+- References `design-system/references/heuristics/disable-vs-hide.md`.
+- Mentions the affordance corollary: a disabled button must not animate or behave as if interactive.
+
+**Expected without skill:** May arbitrarily suggest hiding "to reduce clutter" without the consistency-across-roles reasoning.
+
+---
+
 ## Test Results Log
 
 | Test  | Date       | Baseline Result                                            | With Skill Result                                                                | Pass? |
