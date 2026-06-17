@@ -4,19 +4,19 @@
 
 ## The decision
 
-When something goes wrong, where does the message live? Inline next to the input, as a global notification, or as a full page error?
+When something goes wrong, where does the message live? Attached to the offending field, as a global notification, or as a full page error?
 
 ## Principle
 
 Match the surface to the predictability and scope of the error. Predictable, local problems get local feedback; unpredictable, page-breaking problems get prominent surfaces. The user should never have to hunt for the explanation of a failure they just caused.
 
-## Form inline error
+## Field error
 
 Use to **prevent predictable mistakes from happening**, or to point at the exact field that's wrong.
 
 - Validation rules the form already knows (required, format, length).
-- Inline, next to or below the offending field, via `TextField.Error`.
-- Fixes the user's attention on what to change.
+- Rendered via `TextField.Error`. The primitive shows an error icon in the field's slot when the field is invalid and reveals the message in a tooltip when the user hovers or focuses the icon — no inline text below the field.
+- Keeps the field's footprint stable (no layout shift when the error appears) and fixes the user's attention on the field that needs changing.
 
 ## Global notification
 
@@ -37,12 +37,13 @@ Use for uncaught runtime errors that block the entire page from rendering.
 
 | Problem profile | Surface |
 |-----------------|---------|
-| Predictable, scoped to a field | Inline error |
+| Predictable, scoped to a field | Field error (`TextField.Error`) |
 | Account- or product-wide, must not be missed | Global notification |
 | Page cannot render at all | Page error |
 
 ## Anti-patterns
 
-- Toast notifications for validation errors that should have been inline.
+- Toast notifications for validation errors that should have been a field error.
+- A `<p>` of error text rendered below a `TextField` — the field-error tooltip is the canonical surface; inline message text creates layout shift and bypasses the primitive.
 - Global notifications for routine, recoverable issues — desensitises the user.
 - Page errors that say "Something went wrong" with no recovery path.
