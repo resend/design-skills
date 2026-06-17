@@ -1,8 +1,6 @@
 # Complementary information (tooltip, placeholder, label, drawer)
 
 > Guideline, not a rule. Use this when a control needs *extra* explanation beyond its own label.
->
-> **Drafting note:** The live `resend/resend` repo was not accessible from this skill run, so the patterns below are inferred from `design-system/SKILL.md` and the Notion source. The `@design` team should reconcile this file with what's actually in the codebase before treating it as canonical.
 
 ## The decision
 
