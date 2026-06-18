@@ -15,9 +15,7 @@ Four roles. Pick the one that matches the action's importance on this screen.
 | `white` | **Primary** — the most important action on the page | Inverted black/white, flips in dark mode. One per screen. |
 | `gray` | **Secondary** — the obvious alternative path | Sits next to the primary. |
 | `fade` | **Tertiary / subtle** | Cancel, "Not now", dense action lists, low-stakes escape hatches. |
-| `red` / `fade-red` | **Destructive** | `red` for the confirmation moment; `fade-red` for destructive actions in dense surfaces (row context menus, hover toolbars). |
-
-> `fade-gray` also exists in code as a quieter-than-gray secondary. It isn't a documented role on `/design/components/button` — reach for it only when a plain `gray` would visually equal the primary and the design genuinely needs another step quieter. When in doubt, stick to the four roles above.
+| `red` / `fade-red` | **Destructive** | `red` for the destructive confirmation moment (Delete); `fade-red` for destructive actions in dense surfaces (row context menus, hover toolbars). |
 
 ## Rules of thumb for hierarchy
 
