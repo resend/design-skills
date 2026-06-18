@@ -22,7 +22,7 @@ A collection of design-related skills for Claude Code.
 ## When to use which skill
 
 - **`resend-brand`** — Marketing pages, social graphics, presentations, documents, and any external-facing visual content
-- **`resend-design-system`** — Product UI, `src/ui/` components, design tokens, and code patterns inside the Resend codebase
+- **`resend-design-system`** — Product UI, `src/ui/` components, design tokens, code patterns, and the [Resend heuristics](design-system/references/heuristics.md) for UX decisions (dialog vs stepper, disable vs hide, error surfaces, etc.) inside the Resend codebase
 - **`marketing-pages`** — Creating, updating, or deleting marketing pages in `src/app/(website)/`, including page structure, public primitives, and SEO metadata
 - **`design-audit`** — "Audit design", "design alignment", "dashboard design audit", or the scheduled Monday routine
 
@@ -43,8 +43,10 @@ design-skills/
 │       ├── components.md
 │       ├── design-tokens.md
 │       ├── patterns.md
-│       └── patterns/
-│           └── README.md # Documented UI composition patterns
+│       ├── patterns/
+│       │   └── README.md # Documented UI composition patterns
+│       ├── heuristics.md # Index of Resend UX heuristics
+│       └── heuristics/   # One file per heuristic (dialog vs stepper, etc.)
 ├── design-audit/
 │   ├── SKILL.md          # Design audit skill
 │   └── references/

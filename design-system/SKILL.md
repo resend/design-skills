@@ -1,9 +1,9 @@
 ---
 name: resend-design-system
-description: Use when building or modifying UI in the Resend codebase. Provides component APIs, variant options, design tokens, and composition patterns for all src/ui/ primitives.
+description: Use when building or modifying UI in the Resend codebase. Provides component APIs, variant options, design tokens, composition patterns for all src/ui/ primitives, and the Resend heuristics for UX decisions like dialog-vs-stepper or disable-vs-hide.
 metadata:
   author: resend
-  version: "1.0.0"
+  version: "1.1.0"
 ---
 
 # Resend Design System
@@ -88,6 +88,12 @@ Documented UI patterns live in `design-system/references/patterns/`. A pattern i
 
 The `design-audit` skill (see `design-audit/SKILL.md`) uses this directory when deciding whether a detected composition is already a documented pattern or a new candidate.
 
+## Heuristics
+
+Resend's UX heuristics live in `design-system/references/heuristics.md` and the files under `heuristics/`. They cover decisions — *which* pattern fits this task — rather than how to build a primitive. Load them when choosing between dialog/stepper/full-screen/drawer, deciding whether to disable or hide a control, picking an error surface, etc.
+
+**Heuristics are guidelines, not strict rules.** If a screen has a real reason to deviate, that's allowed; escalate to `@design` when unsure.
+
 ## References
 
 For detailed documentation, load these as needed:
@@ -95,3 +101,4 @@ For detailed documentation, load these as needed:
 - `design-system/references/design-tokens.md` — Colors, typography, shadows, animations
 - `design-system/references/patterns.md` — CVA conventions, compound components, slot system
 - `design-system/references/patterns/README.md` — Documented UI composition patterns and scaffolding guide
+- `design-system/references/heuristics.md` — Index of Resend's UX heuristics (dialog-vs-stepper, disable-vs-hide, API-first, etc.)

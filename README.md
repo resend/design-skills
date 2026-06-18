@@ -66,6 +66,8 @@ Component APIs, design tokens, and composition patterns for building product UI 
 
 **Component Patterns** — CVA conventions, compound components, slot system, Server vs Client boundaries
 
+**Heuristics** — Resend's UX decision guidelines (mirrored from the Notion source). Used when choosing between two valid patterns: dialog vs stepper vs full-screen vs drawer, disable vs hide, where errors should appear, what belongs in a table's main view, and so on. Framed as guidelines, not strict rules — exceptions are expected, and the `@design` team is the escalation path.
+
 ---
 
 ### marketing-pages
@@ -106,6 +108,14 @@ Build a settings form with email validation using Resend's TextField
 
 ```
 Create a confirmation dialog with a destructive delete action
+```
+
+```
+Should this be a dialog or a stepper? It's a 3-step domain setup flow.
+```
+
+```
+This export button is admin-only. Should I hide it for members or just disable it?
 ```
 
 ```
