@@ -3,7 +3,7 @@ name: resend-design-system
 description: Use when building or modifying UI in the Resend codebase. Provides component APIs, variant options, design tokens, composition patterns for all src/ui/ primitives, and the Resend heuristics for UX decisions like dialog-vs-stepper or disable-vs-hide.
 metadata:
   author: resend
-  version: "1.1.0"
+  version: "1.2.0"
 ---
 
 # Resend Design System
@@ -99,6 +99,6 @@ Resend's UX heuristics live in `design-system/references/heuristics.md` and the 
 For detailed documentation, load these as needed:
 - `design-system/references/components.md` — Full component catalog with all props and usage
 - `design-system/references/design-tokens.md` — Colors, typography, shadows, animations
-- `design-system/references/patterns.md` — CVA conventions, compound components, slot system
+- `design-system/references/patterns.md` — Component patterns: CVA variants, compound components, asChild / slot system
 - `design-system/references/patterns/README.md` — Documented UI composition patterns and scaffolding guide
 - `design-system/references/heuristics.md` — Index of Resend's UX heuristics (dialog-vs-stepper, disable-vs-hide, API-first, etc.)
