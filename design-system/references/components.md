@@ -6,7 +6,7 @@ Full API reference for all `src/ui/` primitives. Import with `@/ui/{name}`.
 
 ```tsx
 import { Button } from '@/ui/button';
-<Button appearance="white" size="2" state="loading" iconLeft={<IconPlus />} shortcut="⌘S">Save</Button>
+<Button appearance="white" size="2" state="loading" iconLeft={<IconPlus />} shortcut={[SHORTCUTS_VALUES.CMD, SHORTCUTS_VALUES.ENTER]}>Save</Button>
 ```
 
 | Prop | Type | Default |
@@ -15,7 +15,7 @@ import { Button } from '@/ui/button';
 | `size` | `'1' \| '2'` | `'2'` |
 | `state` | `'normal' \| 'disabled' \| 'loading'` | — |
 | `iconLeft` / `iconRight` | `ReactElement` | — |
-| `shortcut` | `string \| [string, string]` | — |
+| `shortcut` | `string \| [string, string]` | — | Use `SHORTCUTS_VALUES` constants from `@/ui/kbd`, never hardcoded glyphs |
 | `asChild` | `boolean` | `false` |
 
 ## IconButton

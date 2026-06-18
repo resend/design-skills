@@ -4,8 +4,6 @@ Guiding principles for UX decisions across the Resend dashboard. They help maint
 
 > **Guidelines, not strict rules.** Heuristics describe how Resend usually decides, not what every screen must do. Exceptions are expected. When a heuristic doesn't obviously apply, or a screen has a strong reason to break one, escalate to `@design` instead of forcing the rule.
 
-Source of truth: [Resend Heuristics (Notion)](https://www.notion.so/resend/Resend-Heuristics-183c40d6c4ef8094a6d7c90afdf1866a). This directory mirrors that doc so the heuristics are available inside Claude Code sessions; the Notion page wins if they ever diverge.
-
 ## When to load these
 
 Load the relevant heuristic file when:
@@ -30,6 +28,7 @@ Load the relevant heuristic file when:
 | [friendly-names-over-ids](heuristics/friendly-names-over-ids.md) | When to show aliases instead of raw IDs |
 | [expose-debuggable-data](heuristics/expose-debuggable-data.md) | Surfacing raw payloads, error codes, sources |
 | [tag-colors-for-status](heuristics/tag-colors-for-status.md) | Reserving Tag / Badge colours for status, not decoration |
+| [keyboard-shortcuts](heuristics/keyboard-shortcuts.md) | Adding shortcut hints and handlers to buttons, dialogs, and global surfaces |
 
 Each row links to a file under `heuristics/`. Files land via separate PRs — links resolve as those merge.
 

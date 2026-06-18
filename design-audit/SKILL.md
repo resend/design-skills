@@ -3,7 +3,7 @@ name: design-audit
 description: Audit the Resend dashboard for design system alignment. Routes here when a user says "audit design", "design alignment", "dashboard design audit", or when triggered by the scheduled weekly routine.
 metadata:
   author: resend
-  version: "1.0.0"
+  version: "1.0.1"
 ---
 
 # Design Audit Skill
